@@ -39,9 +39,9 @@ namespace WattSim_03A.ViewModels
 
                 ThrottlePos = 0.1,
 
-                CrankRPM = 2000,
-                CrankPower = 7457,
                 XPos = 0,
+                Velocity = 0,
+                Acceleration = 0,
                 KineticEnergy = 9935,
             };
             #endregion
@@ -156,9 +156,6 @@ namespace WattSim_03A.ViewModels
                 {
                     Car.ThrottlePos = value;
                     RaisePropertyChanged("ThrottlePos");
-                    RaisePropertyChanged("CrankPower");
-                    RaisePropertyChanged("CrankTorque");
-                    RaisePropertyChanged("Acceleration");
                 }
             }
         }
@@ -195,9 +192,6 @@ namespace WattSim_03A.ViewModels
                 {
                     Car.CrankRPM = value;
                     RaisePropertyChanged("CrankRPM");
-                    RaisePropertyChanged("Velocity");
-                    RaisePropertyChanged("KineticEnergy");
-                    RaisePropertyChanged("DiscTemperature");
                 }
             }
         }
@@ -330,7 +324,8 @@ namespace WattSim_03A.ViewModels
                 {
                     Car.Velocity = value;
                     RaisePropertyChanged("Velocity");
-                    RaisePropertyChanged("KineticEnergy");      // The K.E. is a function of velocity.
+                    RaisePropertyChanged("CrankRPM");
+                    RaisePropertyChanged("KineticEnergy");
                 }
             }
         }
@@ -517,9 +512,9 @@ namespace WattSim_03A.ViewModels
             double KineticEnergyPrev = KineticEnergy;
 
             XPos = XPos + Velocity;
+            Velocity = Velocity + Acceleration;
+ 
             AngularVelocity = Velocity / OuterDiameter;
-            CrankRPM = CrankRPM + ((1 / FinalDrive) * ((Acceleration * 
-                TyreRadius) / (2 * Math.PI) * 60));
 
             if (BrakePos > 0)
             {
@@ -534,14 +529,13 @@ namespace WattSim_03A.ViewModels
             double Deacceleration = BrakePos;
             Acceleration = Acceleration - BrakePos;
 
-            CrankRPM = CrankRPM + ((1 / FinalDrive) * (Acceleration * 
-                TyreRadius));
+            //CrankRPM = CrankRPM + ((1 / FinalDrive) * (Acceleration * 
+            //    TyreRadius));
             TimeStamp++;
 
             // Raise property changed flags
-            RaisePropertyChanged("CrankPower");
-            RaisePropertyChanged("CrankTorque");
-            RaisePropertyChanged("Acceleration");
+            RaisePropertyChanged("Velocity");
+            RaisePropertyChanged("CrankRPM");
             RaisePropertyChanged("KineticEnergy");
             RaisePropertyChanged("DiscTemperature");
 

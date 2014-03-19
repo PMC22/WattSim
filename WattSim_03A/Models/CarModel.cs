@@ -188,25 +188,7 @@ namespace WattSim_03A.Models
         public double ThrottlePos
         {
             get { return throttlePos; }
-            set
-            {
-                double a = (((72 * maxPower) - (43 * maxPower)) / 1);
-                double b = ((maxPower - idlePower) / 100) - a;
-                double c = (100 / (((maxRPM - idleRPM) / 60) * 2 * Math.PI));
-                double d = c * ((idleRPM / 60) * 2 * Math.PI);
-                double e = 43 * maxPower;
-                double f = idlePower - e;
-                throttlePos = value;
-                //crankPower = (((a + (b * ((c * (crankRPM / 60 * 2 * 
-                //    Math.PI)) - d))) * throttlePos) + e + (f * ((c * 
-                //    (crankRPM / 60 * 2 * Math.PI)) - d)));
-                crankPower = idlePower + throttlePos * (maxPower - idlePower);
-                crankTorque = crankPower / ((crankRPM / 60) * 2 * Math.PI);
-                // acceleration = (((finalDrive) * crankTorque) - (tyreRadius 
-                //     * (frontReaction - rearReaction))) / (2 * wheelInertia);
-                acceleration = (tyreRadius * crankTorque) / (mass * 
-                    (wheelInertia - (tyreRadius * tyreRadius)));
-            }
+            set { throttlePos = value; }
         }
         /// <summary>
         /// Brake pedal position, 0-100%.
@@ -249,6 +231,7 @@ namespace WattSim_03A.Models
             set
             {
                 velocity = value;
+                crankRPM = (velocity / (1 / finalDrive)) / tyreRadius * 60 / (2 * Math.PI);
                 kineticEnergy = 0.5 * mass * velocity * velocity;       //  KE = (mv^2)/2
             }
         }
@@ -266,22 +249,7 @@ namespace WattSim_03A.Models
         public double CrankRPM
         {
             get { return crankRPM; }
-            set
-            {
-                double a = (((0.72 * maxPower) - (0.43 * maxPower)) / 1);
-                double b = ((maxPower - idlePower) / 1) - a;
-                double c = (1 / (((maxRPM - idleRPM) / 60) * 2 * Math.PI));
-                double d = c * ((idleRPM / 60) * 2 * Math.PI);
-                double e = 0.43 * maxPower;
-                double f = idlePower - e;
-                crankRPM = value;
-                crankPower = (((a + (b * ((c * (crankRPM / 60 * 2 * Math.PI)) - d))) * throttlePos) + e + (f * ((c * (crankRPM / 60 * 2 * Math.PI)) - d)));
-                crankTorque = crankPower / ((crankRPM / 60) * 2 * Math.PI);
-                //acceleration = (((finalDrive) * crankTorque) - (tyreRadius * (frontReaction - rearReaction))) / (2 * wheelInertia);
-                acceleration = (tyreRadius * crankTorque) / (mass * (wheelInertia - (tyreRadius * tyreRadius)));
-                velocity = ((1 / finalDrive) * crankRPM) * 0.4 / 60 * 2 * Math.PI;
-                kineticEnergy = 0.5 * mass * velocity * velocity;       //  KE = (mv^2)/2
-            }
+            set { crankRPM = value; }
         }
         /// <summary>
         /// Engine torque, measure at the crankshaft in Nm.
