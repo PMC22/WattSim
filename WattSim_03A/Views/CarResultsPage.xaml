@@ -1,0 +1,57 @@
+﻿<Page x:Name="ResultsPage" x:Class="WattSim_03A.Views.CarResultsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:d3="http://research.microsoft.com/DynamicDataDisplay/1.0"
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="800"
+	Title="ResultsPage" Background="Wheat">
+
+    <!-- 
+        Based on article "Generating Graphs with WPF" by James McCaffrey in MSDN Magazine, June 2010.
+        Last accesed @ http://msdn.microsoft.com/en-us/magazine/ff714591.aspx on 27 January 2014.
+    -->
+    <DockPanel x:Name="ResultsDockPanel" DataContext="{Binding Mode=OneWay, Source={StaticResource _SimulationViewModel}}" Background="White">
+        <Grid x:Name="ResultsGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="123*"/>
+                <ColumnDefinition Width="677*"/>
+            </Grid.ColumnDefinitions>
+            <d3:ChartPlotter 
+                Name="plotter" Margin="10" Width="650" Grid.Column="1" 
+                HorizontalContentAlignment="Stretch" 
+                VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                <d3:ChartPlotter.HorizontalAxis>
+                    <d3:HorizontalIntegerAxis Name="timeAxis"/>
+                </d3:ChartPlotter.HorizontalAxis>
+                <d3:ChartPlotter.VerticalAxis>
+                    <d3:VerticalIntegerAxis Name="velocityAxis"/>
+                </d3:ChartPlotter.VerticalAxis>
+
+                <d3:Header FontFamily="Arial" Content="Results"/>
+                <d3:VerticalAxisTitle FontFamily="Arial" 
+                                      Content="Velocity"/>
+                <d3:HorizontalAxisTitle FontFamily="Arial" Content="Time"/>
+            </d3:ChartPlotter>
+            <StackPanel x:Name="DataChoicePanel" 
+                        Margin="10" 
+                        RenderTransformOrigin="0.5,0.5" >
+                <CheckBox x:Name="VelocityCheck" 
+                          Content="Velocity" 
+                          Checked="VelocityCheck_Checked" Unchecked="VelocityCheck_Unchecked"/>
+                <CheckBox x:Name="AccelerationCheck" 
+                          Content="Acceleration" 
+                          Checked="AccelerationCheck_Checked" Unchecked="AccelerationCheck_Unchecked"/>
+                <CheckBox x:Name="EngineSpeedCheck" 
+                          Content="EngineSpeed"/>
+                <CheckBox x:Name="ThrottlePosCheck" 
+                          Content="Throttle"/>
+                <CheckBox x:Name="BrakeTemperatureCheck" 
+                          Content="Brake Temp" 
+                          Checked="BrakeTemperatureCheck_Checked" Unchecked="BrakeTemperatureCheck_Unchecked"/>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</Page>
+

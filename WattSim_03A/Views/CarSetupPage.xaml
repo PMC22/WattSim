@@ -1,0 +1,85 @@
+﻿<Page x:Class="WattSim_03A.Views.CarSetupPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="889"
+	Title="CarSetupPage">
+    <DockPanel DataContext="{Binding Mode=OneWay, Source={StaticResource _SimulationViewModel}}">
+        <Grid Background="Black">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25"/>
+                <ColumnDefinition Width="135*" MinWidth="135"/>
+                <ColumnDefinition Width="110*" MinWidth="110"/>
+                <ColumnDefinition Width="99*" MinWidth="40"/>
+                <ColumnDefinition Width="62*" MinWidth="40"/>
+                <ColumnDefinition Width="150*" MinWidth="40"/>
+                <ColumnDefinition Width="110*" MinWidth="40"/>
+                <ColumnDefinition Width="100*" MinWidth="40"/>
+                <ColumnDefinition Width="60*" MinWidth="54"/>
+                <ColumnDefinition Width="25"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25" MinHeight="15"/>
+                <RowDefinition Height="26*" MinHeight="37"/>
+                <RowDefinition Height="17*" MinHeight="5"/>
+                <RowDefinition Height="15*" MinHeight="30"/>
+                <RowDefinition Height="15*" MinHeight="30"/>
+                <RowDefinition Height="15*" MinHeight="30"/>
+                <RowDefinition Height="15*" MinHeight="30"/>
+                <RowDefinition Height="15*" MinHeight="30"/>
+                <RowDefinition Height="81*" MinHeight="30"/>
+                <RowDefinition Height="26*" MinHeight="30"/>
+                <RowDefinition Height="25" MinHeight="15"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Column="2" HorizontalAlignment="Right" Grid.Row="8" Grid.RowSpan="3" VerticalAlignment="Bottom" Grid.ColumnSpan="8" Source="/WattSim_02B;component/Images/FrontBlack.bmp" OpacityMask="Black" Height="157" Width="728"/>
+            <Rectangle Grid.Column="1" Margin="1,0,0,0" Grid.Row="3" Grid.RowSpan="6" Stroke="Black" Grid.ColumnSpan="3">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="#FFF4F4F5" Opacity="0.5"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle x:Name="CarTitleBackground" Grid.Row="1" Stroke="Black" Grid.ColumnSpan="10">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="#FFF4F4F5" Opacity="0.5"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Label x:Name="MassLabel" Content="Mass" HorizontalAlignment="Left" Margin="10,5,0,5" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" Height="20" MinHeight="20" VerticalContentAlignment="Center" Foreground="Black" BorderBrush="Black" Padding="0" MinWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}" Width="27"/>
+            <Label x:Name="MassValue" Content="{Binding CarMass}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5,0,5" Grid.Row="3" Grid.Column="2" Height="20" VerticalContentAlignment="Center" Foreground="Black" BorderBrush="Black" Width="30" MinHeight="20" MinWidth="30" Padding="0"/>
+            <TextBox x:Name="MassNewValue" Text="{Binding CarMass}" HorizontalAlignment="Left" Height="20" Margin="5,5,0,5" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="3" Grid.Column="3" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="Black" Foreground="Black" Width="40" MinHeight="20" MinWidth="40"/>
+            <Label x:Name="WheelBaseLabel" Content="Wheel Base (m)" HorizontalAlignment="Left" Margin="10,1,0,3" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" Height="26" MinWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}" MinHeight="25" VerticalContentAlignment="Center" Foreground="Black" BorderBrush="Black" Padding="0" Width="92"/>
+            <Label x:Name="WheelBaseValue" Content="{Binding WheelBase}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5,0,5" Grid.Row="4" Grid.Column="2" Height="20" VerticalContentAlignment="Center" Foreground="Black" BorderBrush="Black" Padding="0" MinHeight="20" MinWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}" Width="16"/>
+            <TextBox x:Name="WheelBaseNewValue" Text="{Binding WheelBase}" HorizontalAlignment="Left" Height="20" Margin="5,5,0,5" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="4" Grid.Column="3" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="Black" Foreground="Black" Width="40" MinWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}" MinHeight="20"/>
+            <Label x:Name="CarPageTitle" Content="Car Setup" Grid.Column="1" HorizontalAlignment="Left" Margin="0,7" Grid.Row="1" VerticalAlignment="Center" FontWeight="Bold" FontStyle="Italic" FontSize="20" Height="38" Foreground="Black" Width="101"/>
+            <Label x:Name="CogLongLabel" Content="Long. CoG Loc." Grid.Column="1" HorizontalAlignment="Left" Margin="10,5,0,5" Grid.Row="5" VerticalAlignment="Center" Height="20" Padding="0" MinHeight="20" MinWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}" Width="79"/>
+            <Label x:Name="TyreDiameterLabel" Content="Tyre Diameter (m)" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5,0,5" Grid.Row="6" VerticalAlignment="Center" Height="20" Padding="0" MinHeight="20" MinWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}" Width="95" VerticalContentAlignment="Center"/>
+            <Label x:Name="WheelInertiaLabel" Content="Wheel MMoI (kgm^2)" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5,0,5" Grid.Row="7" VerticalAlignment="Center" Height="20" VerticalContentAlignment="Center" Padding="0" MinHeight="20" MinWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}" Width="117"/>
+            <Label x:Name="CogLongValue" Content="{Binding CogLong}" Grid.Column="2" HorizontalAlignment="Left" Margin="10,5,0,5" Grid.Row="5" VerticalAlignment="Center" Height="20" Padding="0" MinHeight="20" MinWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}" Width="6" VerticalContentAlignment="Center"/>
+            <Label x:Name="TyreDiameterValue" Content="{Binding TyreRadius}" Grid.Column="2" HorizontalAlignment="Left" Margin="10,5,0,5" Grid.Row="6" VerticalAlignment="Center" Height="20" MinWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}" MinHeight="20" Padding="0" VerticalContentAlignment="Center" Width="38"/>
+            <Label x:Name="WheelInertiaValue" Content="{Binding WheelInertia}" Grid.Column="2" HorizontalAlignment="Left" Margin="10,5,0,5" Grid.Row="7" VerticalAlignment="Center" Height="20" MinWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}" MinHeight="20" VerticalContentAlignment="Center" Padding="0" Width="16"/>
+            <TextBox x:Name="CogLongNewValue" Text="{Binding CogLong}" HorizontalAlignment="Left" Height="20" Margin="5,5,0,5" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="5" Grid.Column="3" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="Black" Foreground="Black" Width="40" MinWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}" MinHeight="20"/>
+            <TextBox x:Name="TyreDiameterNewValue" Text="{Binding TyreRadius}" HorizontalAlignment="Left" Height="20" Margin="5,5,0,5" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="6" Grid.Column="3" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="Black" Foreground="Black" Width="40" MinWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}" MinHeight="20"/>
+            <TextBox x:Name="WheelInertiaNewValue" Text="{Binding WheelInertia}" HorizontalAlignment="Left" Height="20" Margin="5,5,0,5" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="7" Grid.Column="3" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="Black" Foreground="Black" Width="40" MinWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}" MinHeight="20"/>
+            <Rectangle Grid.Column="5" Grid.Row="3" Grid.RowSpan="5" Stroke="Black" Grid.ColumnSpan="3">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="#FFF4F4F5" Opacity="0.5"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Label x:Name="MaxRpmLabel" Content="Max Engine Speed (RPM)" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Grid.Row="3" Grid.Column="5" Height="20" MinHeight="20" VerticalContentAlignment="Center" Foreground="Black" BorderBrush="Black" Padding="0" MinWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
+            <Label x:Name="IdleRpmLabel" Content="Idle Engine Speed (RPM)" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Grid.Row="4" Grid.Column="5" Height="20" MinWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}" MinHeight="20" VerticalContentAlignment="Center" Foreground="Black" BorderBrush="Black" Padding="0"/>
+            <Label x:Name="MaxPowerLabel" Content="Max Power (Watts)" Grid.Column="5" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="5" VerticalAlignment="Center" Height="20" Padding="0" MinHeight="20" MinWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
+            <Label x:Name="IdlePowerLabel" Content="Idle Power (W)" Grid.Column="5" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="6" VerticalAlignment="Center" Height="20" Padding="0" MinHeight="20" MinWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}" VerticalContentAlignment="Center"/>
+            <Label x:Name="MaxEngineSpeedValue" Content="{Binding MaxRPM}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Grid.Row="3" Grid.Column="6" Height="20" VerticalContentAlignment="Center" Foreground="Black" BorderBrush="Black" MinHeight="20" MinWidth="30" Padding="0"/>
+            <Label x:Name="IdleEngineSpeedValue" Content="{Binding IdleRPM}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Grid.Row="4" Grid.Column="6" Height="20" VerticalContentAlignment="Center" Foreground="Black" BorderBrush="Black" MinHeight="20" MinWidth="30" Padding="0"/>
+            <Label x:Name="MaxPowerValue" Content="{Binding MaxPower}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5,0,5" Grid.Row="5" Grid.Column="6" Height="20" VerticalContentAlignment="Center" Foreground="Black" BorderBrush="Black" MinHeight="20" MinWidth="30" Padding="0"/>
+            <Label x:Name="IdlePowerValue" Content="{Binding IdlePower}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Grid.Row="6" Grid.Column="6" Height="20" VerticalContentAlignment="Center" Foreground="Black" BorderBrush="Black" MinHeight="20" MinWidth="30" Padding="0"/>
+            <Label x:Name="FinalDriveLabe" Content="Final Drive Ratio" Grid.Column="5" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="7" VerticalAlignment="Center" Height="20" Padding="0" MinHeight="20" MinWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}" VerticalContentAlignment="Center"/>
+            <Label x:Name="FinalDriveLabel" Content="{Binding FinalDrive}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Grid.Row="7" Grid.Column="6" Height="20" VerticalContentAlignment="Center" Foreground="Black" BorderBrush="Black" MinHeight="20" MinWidth="30" Padding="0"/>
+            <TextBox x:Name="MaxEngineSpeedNewValue" Text="{Binding MaxRPM}" HorizontalAlignment="Left" Height="20" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="3" Grid.Column="7" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="Black" Foreground="Black" MinHeight="20" MinWidth="40"/>
+            <TextBox x:Name="IdleEngineSpeedNewValue" Text="{Binding IdleRPM}" HorizontalAlignment="Left" Height="20" Margin="10,5,0,5" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="4" Grid.Column="7" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="Black" Foreground="Black" MinHeight="20" MinWidth="40"/>
+            <TextBox x:Name="MaxPowerNewValue" Text="{Binding MaxPower}" HorizontalAlignment="Left" Height="20" Margin="10,5,0,5" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="5" Grid.Column="7" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="Black" Foreground="Black" MinHeight="20" MinWidth="40"/>
+            <TextBox x:Name="IdlePowerNewValue" Text="{Binding IdlePower}" HorizontalAlignment="Left" Height="20" Margin="10,5,0,5" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="6" Grid.Column="7" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="Black" Foreground="Black" MinHeight="20" MinWidth="40"/>
+            <TextBox x:Name="FinalDriveNewValue" Text="{Binding FinalDrive}" HorizontalAlignment="Left" Height="20" Margin="10,5,0,5" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="7" Grid.Column="7" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="Black" Foreground="Black" MinHeight="20" MinWidth="40"/>
+        </Grid>
+    </DockPanel>
+</Page>
