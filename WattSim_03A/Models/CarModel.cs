@@ -96,8 +96,10 @@ namespace WattSim_03A.Models
             set
             {
                 cogLong = value;
-                frontReaction = ((wheelBase - cogLong) / (wheelBase)) * (mass * 9.81);
-                rearReaction = (1 - ((wheelBase - cogLong) / (wheelBase))) * (mass * 9.81);
+                frontReaction = ((wheelBase - cogLong) / (wheelBase)) * 
+                    (mass * 9.81);
+                rearReaction = (1 - ((wheelBase - cogLong) / (wheelBase))) * 
+                    (mass * 9.81);
             }
         }
         /// <summary>
@@ -188,17 +190,22 @@ namespace WattSim_03A.Models
             get { return throttlePos; }
             set
             {
-                double a = (((0.72 * maxPower) - (0.43 * maxPower)) / 1);
-                double b = ((maxPower - idlePower) / 1) - a;
-                double c = (1 / (((maxRPM - idleRPM) / 60) * 2 * Math.PI));
+                double a = (((72 * maxPower) - (43 * maxPower)) / 1);
+                double b = ((maxPower - idlePower) / 100) - a;
+                double c = (100 / (((maxRPM - idleRPM) / 60) * 2 * Math.PI));
                 double d = c * ((idleRPM / 60) * 2 * Math.PI);
-                double e = 0.43 * maxPower;
+                double e = 43 * maxPower;
                 double f = idlePower - e;
                 throttlePos = value;
-                crankPower = (((a + (b * ((c * (crankRPM / 60 * 2 * Math.PI)) - d))) * throttlePos) + e + (f * ((c * (crankRPM / 60 * 2 * Math.PI)) - d)));
+                //crankPower = (((a + (b * ((c * (crankRPM / 60 * 2 * 
+                //    Math.PI)) - d))) * throttlePos) + e + (f * ((c * 
+                //    (crankRPM / 60 * 2 * Math.PI)) - d)));
+                crankPower = idlePower + throttlePos * (maxPower - idlePower);
                 crankTorque = crankPower / ((crankRPM / 60) * 2 * Math.PI);
-                //acceleration = (((finalDrive) * crankTorque) - (tyreRadius * (frontReaction - rearReaction))) / (2 * wheelInertia);
-                acceleration = (tyreRadius * crankTorque) / (mass * (wheelInertia - (tyreRadius * tyreRadius)));
+                // acceleration = (((finalDrive) * crankTorque) - (tyreRadius 
+                //     * (frontReaction - rearReaction))) / (2 * wheelInertia);
+                acceleration = (tyreRadius * crankTorque) / (mass * 
+                    (wheelInertia - (tyreRadius * tyreRadius)));
             }
         }
         /// <summary>

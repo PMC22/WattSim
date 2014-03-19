@@ -32,7 +32,7 @@ namespace WattSim_03A.ViewModels
                 TyreRadius = 0.508,
                 WheelInertia = 1,
                 IdlePower = 7457,   // 10 hp = 7457 W
-                MaxPower = 78298,   // 105 hp = 78298 W
+                MaxPower = 75762,   // 101.6 hp = 75762 W
                 IdleRPM = 2000,
                 MaxRPM = 14000,
                 FinalDrive = 11.04,
@@ -518,8 +518,8 @@ namespace WattSim_03A.ViewModels
 
             XPos = XPos + Velocity;
             AngularVelocity = Velocity / OuterDiameter;
-            CrankRPM = CrankRPM + ((1 / FinalDrive) * (Acceleration * 
-                TyreRadius));
+            CrankRPM = CrankRPM + ((1 / FinalDrive) * ((Acceleration * 
+                TyreRadius) / (2 * Math.PI) * 60));
 
             if (BrakePos > 0)
             {
