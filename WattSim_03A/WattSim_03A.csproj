@@ -60,6 +60,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\SimulationViewModel.cs" />
+    <Compile Include="Views\BrakeResults.xaml.cs">
+      <DependentUpon>BrakeResults.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BrakeSetupPage.xaml.cs">
       <DependentUpon>BrakeSetupPage.xaml</DependentUpon>
     </Compile>
@@ -84,6 +87,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\BrakeResults.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\BrakeSetupPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
