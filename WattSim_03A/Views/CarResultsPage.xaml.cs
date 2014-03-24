@@ -141,7 +141,7 @@ namespace WattSim_03A.Views
             /// plotted the data points:
 
             VelocityLineGraph = 
-                plotter.AddLineGraph
+                VelocityPlotter.AddLineGraph
                 (
                         compositeDataSource1,
                         new Pen(Brushes.Blue, 2),
@@ -154,7 +154,7 @@ namespace WattSim_03A.Views
                 );  // End of AddLineGraph.
 
             AccelerationLineGraph = 
-                plotter.AddLineGraph
+                AccelerationPlotter.AddLineGraph
                 (
                         compositeDataSource2,
                         new Pen(Brushes.Black, 2),
@@ -167,7 +167,7 @@ namespace WattSim_03A.Views
                 );  // End of AddLineGraph.
 
             TemperatureLineGraph =
-                plotter.AddLineGraph
+                TemperaturePlotter.AddLineGraph
                 (
                         compositeDataSource3,
                         new Pen(Brushes.Red, 2),
@@ -187,15 +187,11 @@ namespace WattSim_03A.Views
             /// line of thickness 2, place circular markers of size 10 that
             /// have red borders and red fill, and add the series title 
             /// "Velocity in m/s".
-
-            VelocityLineGraph.LineGraph.Visibility = Visibility.Hidden;
-            AccelerationLineGraph.LineGraph.Visibility = Visibility.Hidden;
-            TemperatureLineGraph.LineGraph.Visibility = Visibility.Hidden;
             #endregion
 
             /// The FitToView method scales the graph to the size of the 
             /// WPF window.
-            plotter.Viewport.FitToView();
+            VelocityPlotter.Viewport.FitToView();
 
         }   // End of ResultsPage_Loaded.
         #endregion
@@ -233,38 +229,41 @@ namespace WattSim_03A.Views
         private void VelocityCheck_Checked(object sender, 
             RoutedEventArgs e)
         {
-            VelocityLineGraph.LineGraph.Visibility = Visibility.Visible;
-        } // End of VelocityCheck_Checked. 
+            VelocityPlotter.Visibility = Visibility.Visible;
+            AccelerationPlotter.Visibility = Visibility.Hidden;
+            TemperaturePlotter.Visibility = Visibility.Hidden;
 
-        private void VelocityCheck_Unchecked(object sender, 
-            RoutedEventArgs e)
-        {
-            VelocityLineGraph.LineGraph.Visibility = Visibility.Hidden;           
-        } // End of VelocityCheck_Unchecked.
+            VelocityPlotter.Viewport.FitToView();
+
+            AccelerationCheck.IsChecked = false;
+            BrakeTemperatureCheck.IsChecked = false;
+        } // End of VelocityCheck_Checked. 
 
         private void AccelerationCheck_Checked(object sender, 
             RoutedEventArgs e)
         {
-            AccelerationLineGraph.LineGraph.Visibility = Visibility.Visible;
-        } // End of AccelerationCheck_Checked. 
+            VelocityPlotter.Visibility = Visibility.Hidden;
+            AccelerationPlotter.Visibility = Visibility.Visible;
+            TemperaturePlotter.Visibility = Visibility.Hidden;
 
-        private void AccelerationCheck_Unchecked(object sender, 
-            RoutedEventArgs e)
-        {
-            AccelerationLineGraph.LineGraph.Visibility = Visibility.Hidden;
-        } // End of AccelerationCheck_Unchecked.
+            AccelerationPlotter.Viewport.FitToView();
+
+            VelocityCheck.IsChecked = false;
+            BrakeTemperatureCheck.IsChecked = false;
+        } // End of AccelerationCheck_Checked. 
 
         private void BrakeTemperatureCheck_Checked(object sender, 
             RoutedEventArgs e)
         {
-            TemperatureLineGraph.LineGraph.Visibility = Visibility.Visible;
-        } // End of BrakeTemperatureCheck_Checked.
+            VelocityPlotter.Visibility = Visibility.Hidden;
+            AccelerationPlotter.Visibility = Visibility.Hidden;
+            TemperaturePlotter.Visibility = Visibility.Visible;
 
-        private void BrakeTemperatureCheck_Unchecked(object sender, 
-            RoutedEventArgs e)
-        {
-            TemperatureLineGraph.LineGraph.Visibility = Visibility.Hidden;
-        } // End of BrakeTemperatureCheck_Unchecked
+            TemperaturePlotter.Viewport.FitToView();
+
+            VelocityCheck.IsChecked = false;
+            AccelerationCheck.IsChecked = false;
+        }
         #endregion
 
     }   //End of class ResulsPage.
