@@ -40,7 +40,7 @@ namespace WattSim_03A.ViewModels
                 ThrottlePos = 0.1,
 
                 XPos = 0,
-                Velocity = 0,
+                Velocity = 1,
                 Acceleration = 0,
                 KineticEnergy = 9935,
             };
@@ -509,46 +509,60 @@ namespace WattSim_03A.ViewModels
         #region Commands
         void UpdateTimeExecute()
         {
-            double KineticEnergyPrev = KineticEnergy;
-
-            XPos = XPos + Velocity;
-            Velocity = Velocity + Acceleration;
- 
-            AngularVelocity = Velocity / OuterDiameter;
-
-            if (BrakePos > 0)
+            while(Velocity >= 0)
             {
-                double KineticEnergyChange = KineticEnergy - 
-                    KineticEnergyPrev;
-                double EnergyToDisc = KineticEnergyChange / 4;
-                double DiscTemperatureChange = EnergyToDisc / (BrakeMass * 
-                    SpecificHeatCapacity);
-                DiscTemperature = DiscTemperature + DiscTemperatureChange;
+
+                if(XPos <= 50)
+                {
+                    Acceleration = 3;
+                }
+                else
+                {
+                    Acceleration = -6;
+                }
+
+                double KineticEnergyPrev = KineticEnergy;
+
+                XPos = XPos + Velocity;
+                Velocity = Velocity + Acceleration;
+
+                AngularVelocity = Velocity / OuterDiameter;
+
+                if (BrakePos > 0)
+                {
+                    double KineticEnergyChange = KineticEnergy -
+                        KineticEnergyPrev;
+                    double EnergyToDisc = KineticEnergyChange / 4;
+                    double DiscTemperatureChange = EnergyToDisc / (BrakeMass *
+                        SpecificHeatCapacity);
+                    DiscTemperature = DiscTemperature + DiscTemperatureChange;
+                }
+
+                double Deacceleration = BrakePos;
+                //Acceleration = Acceleration - BrakePos;
+
+                //  CrankRPM = CrankRPM + ((1 / FinalDrive) * (Acceleration * 
+                //    TyreRadius));
+                TimeStamp++;
+
+                // Raise property changed flags
+                RaisePropertyChanged("Velocity");
+                RaisePropertyChanged("CrankRPM");
+                RaisePropertyChanged("KineticEnergy");
+                RaisePropertyChanged("DiscTemperature");
+
+                // Write data to .txt file
+                StreamWriter VelData = new StreamWriter(LocalDir
+                    + "\\SimData.txt", true);
+                String VelString = Velocity.ToString();
+                String TimeString = TimeStamp.ToString();
+                String AccString = Acceleration.ToString();
+                String TempString = DiscTemperature.ToString();
+                VelData.WriteLine(TimeString + ":" + VelString + ":" + AccString
+                    + ":" + TempString);
+                VelData.Close();
             }
 
-            double Deacceleration = BrakePos;
-            Acceleration = Acceleration - BrakePos;
-
-            //CrankRPM = CrankRPM + ((1 / FinalDrive) * (Acceleration * 
-            //    TyreRadius));
-            TimeStamp++;
-
-            // Raise property changed flags
-            RaisePropertyChanged("Velocity");
-            RaisePropertyChanged("CrankRPM");
-            RaisePropertyChanged("KineticEnergy");
-            RaisePropertyChanged("DiscTemperature");
-
-            // Write data to .txt file
-            StreamWriter VelData = new StreamWriter(LocalDir 
-                + "\\SimData.txt", true);
-            String VelString = Velocity.ToString();
-            String TimeString = TimeStamp.ToString();
-            String AccString = Acceleration.ToString();
-            String TempString = DiscTemperature.ToString();
-            VelData.WriteLine(TimeString + ":" + VelString + ":" + AccString 
-                + ":" + TempString);
-            VelData.Close();
         }
         bool CanUpdateTimeExecute()
         {
