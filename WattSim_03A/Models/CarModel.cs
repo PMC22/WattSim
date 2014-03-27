@@ -15,11 +15,6 @@ namespace WattSim_03A.Models
         double track;           // Average track in m.
         double cogLong;         // Longitudinal location of Cog, in metres from the front axle.
         double cogVert;         // Vertical location of CoG, in metres above the ground.
-        double idleRPM;         // Engine speed at idle in RPM, measured at crankshaft.
-        double idlePower;       // Engine power output at idle in Watts, measured at crankshaft.
-        double idleTorque;      // Engine torque at idle in Nm, at crankshaft.
-        double maxRPM;          // Maximum angular velocity of crankshaft, in RPM.
-        double maxPower;        // Maximum power, in Watts, at the crankshaft.
         double maxTorque;       // Maximum engine torque, at the crankshaft, in Nm.
         double finalDrive;      // Final drive ratio. Takes into account gearing through gearbox, engine output and differential sprocket.
 
@@ -28,17 +23,14 @@ namespace WattSim_03A.Models
         double tyreFricCoeff;   // Friction coefficient between the tyre and the surface.
 
         double throttlePos;    // Throttle position, 0-100%.
-        double brakePos;       // Brake pedal position, 0-100%.
 
         double xPos;           // Car's X co-ordinate, distance is measured in metres.
         double yPos;           // Car's Y co-ordinate, distance measured in metres.
         double heading;        // Direction the car is heading. Measured in degrees, clockwise, from the X axis.
         double velocity;       // Car's linear velocity in m/s, in the direction the car is heading.
         double acceleration;   // Car's linear acceleration in m/s^2 in the direction the car is heading.
-        double crankRPM;       // Engine speed in revolutoins per minute, measure at the crankshaft.
 
         double crankTorque;    // Engine torque, measured at the crankshaft in Nm.
-        double crankPower;     // Engine Power, in Watts, measure at the crankshaft.
         double frontReaction;   // Reaction at the front axle in N.
         double rearReaction;    // Reaction at the rear axle in N.
         double kineticEnergy;  // Car's kinetic energy in J.
@@ -113,19 +105,19 @@ namespace WattSim_03A.Models
         /// <summary>
         /// Max engine speed, in RPM, measure at the crankshaft.
         /// </summary>
-        public double MaxRPM
-        {
-            get { return maxRPM; }
-            set { maxRPM = value; }
-        }
+        //public double MaxRPM
+        //{
+        //    get { return maxRPM; }
+        //    set { maxRPM = value; }
+        //}
         /// <summary>
         /// Max engine power, in W, measure at the crankshaft.
         /// </summary>
-        public double MaxPower
-        {
-            get { return maxPower; }
-            set { maxPower = value; }
-        }
+        //public double MaxPower
+        //{
+        //    get { return maxPower; }
+        //    set { maxPower = value; }
+        //}
         /// <summary>
         /// Max engine torque, in Nm, measure at the crankshaft.
         /// </summary>
@@ -137,27 +129,27 @@ namespace WattSim_03A.Models
         /// <summary>
         /// Idle engine speed, in RPM, measure at the crankshaft.
         /// </summary>
-        public double IdleRPM
-        {
-            get { return idleRPM; }
-            set { idleRPM = value; }
-        }
+        //public double IdleRPM
+        //{
+        //    get { return idleRPM; }
+        //    set { idleRPM = value; }
+        //}
         /// <summary>
         /// Idle engine power, in W, measure at the crankshaft.
         /// </summary>
-        public double IdlePower
-        {
-            get { return idlePower; }
-            set { idlePower = value; }
-        }
+        //public double IdlePower
+        //{
+        //    get { return idlePower; }
+        //    set { idlePower = value; }
+        //}
         /// <summary>
         /// Idle engine torque, in Nm, measure at the crankshaft.
         /// </summary>
-        public double IdleTorque
-        {
-            get { return idleTorque; }
-            set { idleTorque = value; }
-        }
+        //public double IdleTorque
+        //{
+        //    get { return idleTorque; }
+        //    set { idleTorque = value; }
+        //}
         /// <summary>
         /// Final drive ratio.
         /// </summary>
@@ -188,15 +180,12 @@ namespace WattSim_03A.Models
         public double ThrottlePos
         {
             get { return throttlePos; }
-            set { throttlePos = value; }
-        }
-        /// <summary>
-        /// Brake pedal position, 0-100%.
-        /// </summary>
-        public double BrakePos
-        {
-            get { return brakePos; }
-            set { brakePos = value; }
+            set 
+            { 
+                throttlePos = value;
+                crankTorque = maxTorque * throttlePos;
+                acceleration = (crankTorque / wheelInertia) * tyreRadius;
+            }
         }
         /// <summary>
         /// Car's X co-ordinate, distance is measured in metres.
@@ -231,7 +220,7 @@ namespace WattSim_03A.Models
             set
             {
                 velocity = value;
-                crankRPM = (velocity / (1 / finalDrive)) / tyreRadius * 60 / (2 * Math.PI);
+                //crankRPM = (velocity / (1 / finalDrive)) / tyreRadius * 60 / (2 * Math.PI);
                 kineticEnergy = 0.5 * mass * velocity * velocity;       //  KE = (mv^2)/2
             }
         }
@@ -246,11 +235,11 @@ namespace WattSim_03A.Models
         /// <summary>
         /// Engine speed in revolutoins per minute.
         /// </summary>
-        public double CrankRPM
-        {
-            get { return crankRPM; }
-            set { crankRPM = value; }
-        }
+        //public double CrankRPM
+        //{
+        //    get { return crankRPM; }
+        //    set { crankRPM = value; }
+        //}
         /// <summary>
         /// Engine torque, measure at the crankshaft in Nm.
         /// </summary>
@@ -262,11 +251,11 @@ namespace WattSim_03A.Models
         /// <summary>
         /// Engine Power, in Watts, measure at the crankshaft.
         /// </summary>
-        public double CrankPower
-        {
-            get { return crankPower; }
-            set { crankPower = value; }
-        }
+        //public double CrankPower
+        //{
+        //    get { return crankPower; }
+        //    set { crankPower = value; }
+        //}
         /// <summary>
         /// The reaction at the front axle in N.
         /// </summary>

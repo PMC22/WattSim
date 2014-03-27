@@ -1,11 +1,11 @@
-﻿<Page x:Class="WattSim_03A.Views.CarSetupPage"
+﻿<Page x:Name="CarSetup_XPage" x:Class="WattSim_03A.Views.CarSetupPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="889"
-	Title="CarSetupPage">
+	Title="CarSetupPage" MinWidth="889" MinHeight="500">
     <DockPanel DataContext="{Binding Mode=OneWay, Source={StaticResource _SimulationViewModel}}">
         <Grid Background="Black">
             <Grid.ColumnDefinitions>
@@ -33,7 +33,7 @@
                 <RowDefinition Height="26*" MinHeight="30"/>
                 <RowDefinition Height="25" MinHeight="15"/>
             </Grid.RowDefinitions>
-            <Image Grid.Column="2" HorizontalAlignment="Right" Grid.Row="8" Grid.RowSpan="3" VerticalAlignment="Bottom" Grid.ColumnSpan="8" Source="/WattSim_02B;component/Images/FrontBlack.bmp" OpacityMask="Black" Height="157" Width="728"/>
+            <Image Grid.Column="2" HorizontalAlignment="Right" Grid.Row="8" Grid.RowSpan="3" VerticalAlignment="Bottom" Grid.ColumnSpan="8" Source="/WattSim_03A;component/Images/FrontBlack.bmp" OpacityMask="Black" Height="157" Width="728"/>
             <Rectangle Grid.Column="1" Margin="1,0,0,0" Grid.Row="3" Grid.RowSpan="6" Stroke="Black" Grid.ColumnSpan="3">
                 <Rectangle.Fill>
                     <SolidColorBrush Color="#FFF4F4F5" Opacity="0.5"/>

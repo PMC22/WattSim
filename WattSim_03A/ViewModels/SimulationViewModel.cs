@@ -19,7 +19,16 @@ namespace WattSim_03A.ViewModels
         /// </summary>
         public SimulationViewModel()
         {
-            double AirTemp = 300;       // Ambient temperature in Kelvin.
+            // Ambient temperature in Kelvin.
+            double AirTemp = 300;       
+            // Force at contact patch of front wheels (N).
+            double FrontBrakeForce;
+            // Force at contact patch of rear wheels (N).
+            double RearBrakeForce;
+            // Total force slowing car (N).
+            double TotalBrakeForce;
+            // Final acceleration of car due to braking (m/s^2).
+            double AccelerationFromBrakes;
 
             #region Car Constructor
             _Car = new Models.CarModel
@@ -30,19 +39,19 @@ namespace WattSim_03A.ViewModels
                 Track = 0.6,
                 CogLong = 1,
                 TyreRadius = 0.508,
-                WheelInertia = 1,
-                IdlePower = 7457,   // 10 hp = 7457 W
-                MaxPower = 75762,   // 101.6 hp = 75762 W
-                IdleRPM = 2000,
-                MaxRPM = 14000,
+                WheelInertia = 7.5,
+                MaxTorque = 55,
+                //IdlePower = 7457,   // 10 hp = 7457 W
+                //MaxPower = 75762,   // 101.6 hp = 75762 W
+                //IdleRPM = 2000,
+                //MaxRPM = 14000,
                 FinalDrive = 11.04,
 
-                ThrottlePos = 0.1,
+                ThrottlePos = 0,
 
                 XPos = 0,
-                Velocity = 1,
+                Velocity = 0,
                 Acceleration = 0,
-                KineticEnergy = 9935,
             };
             #endregion
 
@@ -156,6 +165,8 @@ namespace WattSim_03A.ViewModels
                 {
                     Car.ThrottlePos = value;
                     RaisePropertyChanged("ThrottlePos");
+                    RaisePropertyChanged("CrankTorque");
+                    RaisePropertyChanged("Acceleration");
                 }
             }
         }
@@ -183,78 +194,78 @@ namespace WattSim_03A.ViewModels
                 }
             }
         }
-        public double CrankRPM
-        {
-            get { return Car.CrankRPM; }
-            set
-            {
-                if (Car.CrankRPM != value)
-                {
-                    Car.CrankRPM = value;
-                    RaisePropertyChanged("CrankRPM");
-                }
-            }
-        }
-        public double IdlePower
-        {
-            get { return Car.IdlePower; }
-            set
-            {
-                if (Car.IdlePower != value)
-                {
-                    Car.IdlePower = value;
-                    RaisePropertyChanged("IdlePower");
-                }
-            }
-        }
-        public double IdleRPM
-        {
-            get { return Car.IdleRPM; }
-            set
-            {
-                if (Car.IdleRPM != value)
-                {
-                    Car.IdleRPM = value;
-                    RaisePropertyChanged("IdleRPM");
-                }
-            }
-        }
-        public double CrankPower
-        {
-            get { return Car.CrankPower; }
-            set
-            {
-                if (Car.CrankPower != value)
-                {
-                    Car.CrankPower = value;
-                    RaisePropertyChanged("CrankPower");
-                }
-            }
-        }
-        public double MaxPower
-        {
-            get { return Car.MaxPower; }
-            set
-            {
-                if (Car.MaxPower != value)
-                {
-                    Car.MaxPower = value;
-                    RaisePropertyChanged("MaxPower");
-                }
-            }
-        }
-        public double MaxRPM
-        {
-            get { return Car.MaxRPM; }
-            set
-            {
-                if (Car.MaxRPM != value)
-                {
-                    Car.MaxRPM = value;
-                    RaisePropertyChanged("MaxRPM");
-                }
-            }
-        }
+        //public double CrankRPM
+        //{
+        //    get { return Car.CrankRPM; }
+        //    set
+        //    {
+        //        if (Car.CrankRPM != value)
+        //        {
+        //            Car.CrankRPM = value;
+        //            RaisePropertyChanged("CrankRPM");
+        //        }
+        //    }
+        //}
+        //public double IdlePower
+        //{
+        //    get { return Car.IdlePower; }
+        //    set
+        //    {
+        //        if (Car.IdlePower != value)
+        //        {
+        //            Car.IdlePower = value;
+        //            RaisePropertyChanged("IdlePower");
+        //        }
+        //    }
+        //}
+        //public double IdleRPM
+        //{
+        //    get { return Car.IdleRPM; }
+        //    set
+        //    {
+        //        if (Car.IdleRPM != value)
+        //        {
+        //            Car.IdleRPM = value;
+        //            RaisePropertyChanged("IdleRPM");
+        //        }
+        //    }
+        //}
+        //public double CrankPower
+        //{
+        //    get { return Car.CrankPower; }
+        //    set
+        //    {
+        //        if (Car.CrankPower != value)
+        //        {
+        //            Car.CrankPower = value;
+        //            RaisePropertyChanged("CrankPower");
+        //        }
+        //    }
+        //}
+        //public double MaxPower
+        //{
+        //    get { return Car.MaxPower; }
+        //    set
+        //    {
+        //        if (Car.MaxPower != value)
+        //        {
+        //            Car.MaxPower = value;
+        //            RaisePropertyChanged("MaxPower");
+        //        }
+        //    }
+        //}
+        //public double MaxRPM
+        //{
+        //    get { return Car.MaxRPM; }
+        //    set
+        //    {
+        //        if (Car.MaxRPM != value)
+        //        {
+        //            Car.MaxRPM = value;
+        //            RaisePropertyChanged("MaxRPM");
+        //        }
+        //    }
+        //}
         public double FinalDrive
         {
             get { return Car.FinalDrive; }
@@ -324,7 +335,7 @@ namespace WattSim_03A.ViewModels
                 {
                     Car.Velocity = value;
                     RaisePropertyChanged("Velocity");
-                    RaisePropertyChanged("CrankRPM");
+                    //RaisePropertyChanged("CrankRPM");
                     RaisePropertyChanged("KineticEnergy");
                 }
             }
@@ -509,60 +520,41 @@ namespace WattSim_03A.ViewModels
         #region Commands
         void UpdateTimeExecute()
         {
-            while(Velocity >= 0)
+            double KineticEnergyPrev = KineticEnergy;
+
+            XPos = XPos + Velocity;
+            Velocity = Velocity + Acceleration;
+
+            AngularVelocity = Velocity / OuterDiameter;
+
+            if (BrakePos > 0)
             {
-
-                if(XPos <= 50)
-                {
-                    Acceleration = 3;
-                }
-                else
-                {
-                    Acceleration = -6;
-                }
-
-                double KineticEnergyPrev = KineticEnergy;
-
-                XPos = XPos + Velocity;
-                Velocity = Velocity + Acceleration;
-
-                AngularVelocity = Velocity / OuterDiameter;
-
-                if (BrakePos > 0)
-                {
-                    double KineticEnergyChange = KineticEnergy -
-                        KineticEnergyPrev;
-                    double EnergyToDisc = KineticEnergyChange / 4;
-                    double DiscTemperatureChange = EnergyToDisc / (BrakeMass *
-                        SpecificHeatCapacity);
-                    DiscTemperature = DiscTemperature + DiscTemperatureChange;
-                }
-
-                double Deacceleration = BrakePos;
-                //Acceleration = Acceleration - BrakePos;
-
-                //  CrankRPM = CrankRPM + ((1 / FinalDrive) * (Acceleration * 
-                //    TyreRadius));
-                TimeStamp++;
-
-                // Raise property changed flags
-                RaisePropertyChanged("Velocity");
-                RaisePropertyChanged("CrankRPM");
-                RaisePropertyChanged("KineticEnergy");
-                RaisePropertyChanged("DiscTemperature");
-
-                // Write data to .txt file
-                StreamWriter VelData = new StreamWriter(LocalDir
-                    + "\\SimData.txt", true);
-                String VelString = Velocity.ToString();
-                String TimeString = TimeStamp.ToString();
-                String AccString = Acceleration.ToString();
-                String TempString = DiscTemperature.ToString();
-                VelData.WriteLine(TimeString + ":" + VelString + ":" + AccString
-                    + ":" + TempString);
-                VelData.Close();
+                double KineticEnergyChange = KineticEnergy -
+                    KineticEnergyPrev;
+                double EnergyToDisc = KineticEnergyChange / 4;
+                double DiscTemperatureChange = EnergyToDisc / (BrakeMass *
+                    SpecificHeatCapacity);
+                DiscTemperature = DiscTemperature + DiscTemperatureChange;
             }
 
+            TimeStamp++;
+
+            // Raise property changed flags
+            RaisePropertyChanged("Velocity");
+            //RaisePropertyChanged("CrankRPM");
+            RaisePropertyChanged("KineticEnergy");
+            RaisePropertyChanged("DiscTemperature");
+
+            // Write data to .txt file
+            StreamWriter VelData = new StreamWriter(LocalDir
+                + "\\SimData.txt", true);
+            String VelString = Velocity.ToString();
+            String TimeString = TimeStamp.ToString();
+            String AccString = Acceleration.ToString();
+            String TempString = DiscTemperature.ToString();
+            VelData.WriteLine(TimeString + ":" + VelString + ":" + AccString
+                + ":" + TempString);
+            VelData.Close();
         }
         bool CanUpdateTimeExecute()
         {
@@ -574,18 +566,89 @@ namespace WattSim_03A.ViewModels
                 CanUpdateTimeExecute); 
             } 
         }
+
+        void BrakeTestExecute()
+        {
+            //if(XPos <= 50)
+            //{
+            //    Acceleration = 3;
+            //}
+            //else
+            //{
+            //    Acceleration = -6;
+            //}
+
+            double KineticEnergyPrev = KineticEnergy;
+
+            XPos = XPos + Velocity;
+            Velocity = Velocity + Acceleration;
+
+            AngularVelocity = Velocity / OuterDiameter;
+
+            if (BrakePos > 0)
+            {
+                double KineticEnergyChange = KineticEnergy -
+                    KineticEnergyPrev;
+                double EnergyToDisc = KineticEnergyChange / 4;
+                double DiscTemperatureChange = EnergyToDisc / (BrakeMass *
+                    SpecificHeatCapacity);
+                DiscTemperature = DiscTemperature + DiscTemperatureChange;
+            }
+
+            double Deacceleration = BrakePos;
+            //Acceleration = Acceleration - BrakePos;
+
+            //  CrankRPM = CrankRPM + ((1 / FinalDrive) * (Acceleration * 
+            //    TyreRadius));
+            TimeStamp++;
+
+            // Raise property changed flags
+            RaisePropertyChanged("Velocity");
+            //RaisePropertyChanged("CrankRPM");
+            RaisePropertyChanged("KineticEnergy");
+            RaisePropertyChanged("DiscTemperature");
+
+            // Write data to .txt file
+            StreamWriter VelData = new StreamWriter(LocalDir
+                + "\\SimData.txt", true);
+            String VelString = Velocity.ToString();
+            String TimeString = TimeStamp.ToString();
+            String AccString = Acceleration.ToString();
+            String TempString = DiscTemperature.ToString();
+            VelData.WriteLine(TimeString + ":" + VelString + ":" + AccString
+                + ":" + TempString);
+            VelData.Close();
+            //}
+
+        }
+        bool CanBrakeTestExecute()
+        {
+            return true;
+        }
+        public ICommand BrakeTest
+        {
+            get
+            {
+                return new RelayCommand(UpdateTimeExecute,
+                  CanUpdateTimeExecute);
+            }
+        }
         #endregion
 
         #region Functions
-        // Calculates the heat flux through the area of contact between the brake pad and disc.
-        double QfluxDisc(double QdotIn, double DiscOuterRadius, double BrakePadHeight)
+        // Calculates the heat flux through the area of contact between 
+        // the brake pad and disc.
+        double QfluxDisc(double QdotIn, double DiscOuterRadius, 
+            double BrakePadHeight)
         {
             double Qflux;
             Qflux = (4 * QdotIn) / (3.14 * (Math.Pow(2 * DiscOuterRadius, 2)) - (3.14 * (Math.Pow((DiscOuterRadius - BrakePadHeight), 2))));
             return Qflux;
         }
-        //  Calculates heat transfer from an object to the environment based on the lumped capcitance model
-        double AmbientCooling(double Temperature, double TemperatureAmb, double Alpha, double AreaSurface)
+        // Calculates heat transfer from an object to the environment 
+        // based on the lumped capcitance model.
+        double AmbientCooling(double Temperature, double TemperatureAmb, 
+            double Alpha, double AreaSurface)
         {
             double QdotAmb;
             if (Temperature > TemperatureAmb)
