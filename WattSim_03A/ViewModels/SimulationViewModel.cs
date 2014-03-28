@@ -19,17 +19,6 @@ namespace WattSim_03A.ViewModels
         /// </summary>
         public SimulationViewModel()
         {
-            // Ambient temperature in Kelvin.
-            double AirTemp = 300;       
-            // Force at contact patch of front wheels (N).
-            double FrontBrakeForce;
-            // Force at contact patch of rear wheels (N).
-            double RearBrakeForce;
-            // Total force slowing car (N).
-            double TotalBrakeForce;
-            // Final acceleration of car due to braking (m/s^2).
-            double AccelerationFromBrakes;
-
             #region Car Constructor
             _Car = new Models.CarModel
             {
@@ -65,9 +54,32 @@ namespace WattSim_03A.ViewModels
                 SpecificHeatCapacity = 350,
                 TensileModulus = 210e9,
                 DiscTemperature = 300,
+
+                BrakePos = 0,
+                BrakePedalRatio = 4.89,
+                MasterPistonOuterDiameter = 0.019734,
+                MasterPistonInnerDiameter = 0,
+                NumPistonsFront = 4,
+                NumPistonsRear = 2,
+                DiscPadFriction = 0.55,
+                BrakePadMeanRadius = 0.1,
             };
             #endregion
 
+            #region View model members
+            // Ambient temperature in Kelvin.
+            double airTemp = 300;
+            // Force at contact patch of front wheels (N).
+            double frontBrakeForce = _Brake.FrontBrakeTorque / _Car.TyreRadius;
+            // Force at contact patch of rear wheels (N).
+            double rearBrakeForce = _Brake.RearBrakeTorque / _Car.TyreRadius;
+            // Total force slowing car (N).
+            double totalBrakeForce = frontBrakeForce + rearBrakeForce;
+            // Final acceleration of car due to braking (m/s^2).
+            double accelerationFromBrakes = - totalBrakeForce / _Car.Mass;
+            #endregion
+
+            #region Create text file
             Uri assemblyUri = new Uri(System.Reflection.Assembly.
                 GetExecutingAssembly().CodeBase);
             LocalDir = Path.GetDirectoryName(assemblyUri.LocalPath);
@@ -79,6 +91,7 @@ namespace WattSim_03A.ViewModels
             SimData.WriteLine("0:" + VelString + ":" + AccString + ":" 
                 + TempString);
             SimData.Close();
+            #endregion
         }
         #endregion
 
@@ -167,18 +180,6 @@ namespace WattSim_03A.ViewModels
                     RaisePropertyChanged("ThrottlePos");
                     RaisePropertyChanged("CrankTorque");
                     RaisePropertyChanged("Acceleration");
-                }
-            }
-        }
-        public double BrakePos
-        {
-            get { return Car.BrakePos; }
-            set
-            {
-                if (Car.BrakePos != value)
-                {
-                    Car.BrakePos = value;
-                    RaisePropertyChanged("BrakePos");
                 }
             }
         }
@@ -515,6 +516,351 @@ namespace WattSim_03A.ViewModels
                 }
             }
         }
+        /// <summary>
+        /// Brake pedal position, 0-100%.
+        /// </summary>
+        public double BrakePos
+        {
+            get { return Brake.BrakePos; }
+            set
+            {
+                if (Brake.BrakePos != value)
+                {
+                    Brake.BrakePos = value;
+                    RaisePropertyChanged("BrakePos");
+                }
+            }
+        }
+        /// <summary>
+        /// Brake pedal force in N.
+        /// </summary>
+        public double BrakePedalForce
+        {
+            get { return Brake.BrakePedalForce; }
+            set 
+            {
+                if (Brake.BrakePedalForce != value)
+                {
+                    Brake.BrakePedalForce = value;
+                    RaisePropertyChanged("BrakePedalForce");
+                }
+            }
+        }
+        /// <summary>
+        /// Brake pedal lever ratio.
+        /// </summary>
+        public double BrakePedalRatio
+        {
+            get { return Brake.BrakePedalRatio; }
+            set 
+            {
+                if (Brake.BrakePedalRatio != value)
+                {
+                    Brake.BrakePedalRatio = value;
+                    RaisePropertyChanged("BrakePedalRatio");
+                }
+            }
+        }
+        /// <summary>
+        /// Force on master cylinder actuators (N).
+        /// </summary>
+        public double MasterCylinderForce
+        {
+            get { return Brake.MasterCylinderForce; }
+            set 
+            {
+                if (Brake.MasterCylinderForce != value)
+                {
+                    Brake.MasterCylinderForce = value;
+                    RaisePropertyChanged("MasterCylinderForce");
+                }
+            }
+        }
+        /// <summary>
+        /// Force on front master cylinder actuator (N).
+        /// </summary>
+        public double FrontCylinderForce
+        {
+            get { return Brake.FrontCylinderForce; }
+            set 
+            {
+                if (Brake.FrontCylinderForce != value)
+                {
+                    Brake.FrontCylinderForce = value;
+                    RaisePropertyChanged("FrontCylinderForce");
+                }
+            }
+        }
+        /// <summary>
+        /// Force on rear master cylinder actuator (N).
+        /// </summary>
+        public double RearCylinderForce
+        {
+            get { return Brake.RearCylinderForce; }
+            set 
+            {
+                if (Brake.RearCylinderForce != value)
+                {
+                    Brake.RearCylinderForce = value;
+                    RaisePropertyChanged("RearCylinderForce");
+                }
+            }
+        }
+        /// <summary>
+        /// Area of master cylinder piston (m^2).
+        /// </summary>
+        public double MasterPistonArea
+        {
+            get { return Brake.MasterPistonArea; }
+            set 
+            {
+                if (Brake.MasterPistonArea != value)
+                {
+                    Brake.MasterPistonArea = value;
+                    RaisePropertyChanged("MasterPistonArea");
+                }
+            }
+        }
+        /// <summary>
+        /// Area of caliper piston (m^2).
+        /// </summary>
+        public double CalliperPistonArea
+        {
+            get { return Brake.CalliperPistonArea; }
+            set 
+            {
+                if (Brake.CalliperPistonArea != value)
+                {
+                    Brake.CalliperPistonArea = value;
+                    RaisePropertyChanged("CalliperPistonArea");
+                }
+            }
+        }
+        /// <summary>
+        /// Pressure in front braking system (Pa).
+        /// </summary>
+        public double FrontBrakeSysPressure
+        {
+            get { return Brake.FrontBrakeSysPressure; }
+            set 
+            {
+                if (Brake.FrontBrakeSysPressure != value)
+                {
+                    Brake.FrontBrakeSysPressure = value;
+                    RaisePropertyChanged("FrontBrakeSysPressure");
+                }
+            }
+        }
+        /// <summary>
+        /// Pressure in rear braking system (Pa).
+        /// </summary>
+        public double RearBrakeSysPressure
+        {
+            get { return Brake.RearBrakeSysPressure; }
+            set 
+            {
+                if (Brake.RearBrakeSysPressure != value)
+                {
+                    Brake.RearBrakeSysPressure = value;
+                    RaisePropertyChanged("RearBrakeSysPressure");
+                }
+            }
+        }
+        /// <summary>
+        /// Number of pistons in front callipers.
+        /// </summary>
+        public double NumPistonsFront
+        {
+            get { return Brake.NumPistonsFront; }
+            set 
+            {
+                if (Brake.NumPistonsFront != value)
+                {
+                    Brake.NumPistonsFront = value;
+                    RaisePropertyChanged("NumPistonsFront");
+                }
+            }
+        }
+        /// <summary>
+        /// Number of pistons in rear callipers.
+        /// </summary>
+        public double NumPistonsRear
+        {
+            get { return Brake.NumPistonsRear; }
+            set 
+            {
+                if (Brake.NumPistonsRear != value)
+                {
+                    Brake.NumPistonsRear = value;
+                    RaisePropertyChanged("NumPistonsRear");
+                }
+            }
+        }
+        /// <summary>
+        /// Total force on front caliper pistons (N).
+        /// </summary>
+        public double FrontCalliperForce
+        {
+            get { return Brake.FrontCalliperForce; }
+            set 
+            {
+                if (Brake.FrontCalliperForce != value)
+                {
+                    Brake.FrontCalliperForce = value;
+                    RaisePropertyChanged("FrontCalliperForce");
+                }
+            }
+        }
+        /// <summary>
+        /// Total force on rear caliper pistons (N).
+        /// </summary>
+        public double RearCalliperForce
+        {
+            get { return Brake.RearCalliperForce; }
+            set 
+            {
+                if (Brake.RearCalliperForce != value)
+                {
+                    Brake.RearCalliperForce = value;
+                    RaisePropertyChanged("RearCalliperForce");
+                }
+            }
+        }
+        /// <summary>
+        /// Coefficient of friction between discs and pads.
+        /// </summary>
+        public double DiscPadFriction
+        {
+            get { return Brake.DiscPadFriction; }
+            set 
+            {
+                if (Brake.DiscPadFriction != value)
+                {
+                    Brake.DiscPadFriction = value;
+                    RaisePropertyChanged("DiscPadFriction");
+                }
+            }
+        }
+        /// <summary>
+        /// Force on front discs due to friction (N).
+        /// </summary>
+        public double FrontBrakeForce
+        {
+            get { return Brake.FrontBrakeForce; }
+            set 
+            {
+                if (Brake.FrontBrakeForce != value)
+                {
+                    Brake.FrontBrakeForce = value;
+                    RaisePropertyChanged("FrontBrakeForce");
+                }
+            }
+        }
+        /// <summary>
+        /// Force on rear discs due to friction (N).
+        /// </summary>
+        public double RearBrakeForce
+        {
+            get { return Brake.RearBrakeForce; }
+            set 
+            {
+                if (Brake.RearBrakeForce != value)
+                {
+                    Brake.RearBrakeForce = value;
+                    RaisePropertyChanged("RearBrakeForce");
+                }
+            }
+        }
+        /// <summary>
+        /// Torque on front brake rotors (Nm).
+        /// </summary>
+        public double FrontBrakeTorque
+        {
+            get { return Brake.FrontBrakeTorque; }
+            set 
+            {
+                if (Brake.FrontBrakeTorque != value)
+                {
+                    Brake.FrontBrakeTorque = value;
+                    RaisePropertyChanged("FrontBrakeTorque");
+                }
+            }
+        }
+        /// <summary>
+        /// Torque on rear brake rotors (Nm).
+        /// </summary>
+        public double RearBrakeTorque
+        {
+            get { return Brake.RearBrakeTorque; }
+            set 
+            {
+                if (Brake.RearBrakeTorque != value)
+                {
+                    Brake.RearBrakeTorque = value;
+                    RaisePropertyChanged("RearBrakeTorque");
+                }
+            }
+        }
+        /// <summary>
+        /// Master cylinder piston outer diameter (m).
+        /// </summary>
+        public double MasterPistonOuterDiameter
+        {
+            get { return Brake.MasterPistonOuterDiameter; }
+            set 
+            {
+                if (Brake.MasterPistonOuterDiameter != value)
+                {
+                    Brake.MasterPistonOuterDiameter = value;
+                    RaisePropertyChanged("MasterPistonOuterDiameter");
+                }
+            }
+        }
+        /// <summary>
+        /// Master cylinder piston inner diameter (m).
+        /// </summary>
+        public double MasterPistonInnerDiameter
+        {
+            get { return Brake.MasterPistonInnerDiameter; }
+            set 
+            {
+                if (Brake.MasterPistonInnerDiameter != value)
+                {
+                    Brake.MasterPistonInnerDiameter = value;
+                    RaisePropertyChanged("MasterPistonInnerDiameter");
+                }
+            }
+        }
+        /// <summary>
+        /// Brake pad mean radius (m).
+        /// </summary>
+        public double BrakePadMeanRadius
+        {
+            get { return Brake.BrakePadMeanRadius; }
+            set 
+            {
+                if (Brake.BrakePadMeanRadius != value)
+                {
+                    Brake.BrakePadMeanRadius = value;
+                    RaisePropertyChanged("BrakePadMeanRadius");
+                }
+            }
+        }
+        /// <summary>
+        /// Brake bias.
+        /// </summary>
+        public double BrakeBias
+        {
+            get { return Brake.BrakeBias; }
+            set 
+            {
+                if (Brake.BrakeBias != value)
+                {
+                    Brake.BrakeBias = value;
+                    RaisePropertyChanged("BrakeBias");
+                }
+            }
+        }
         #endregion
 
         #region Commands
@@ -527,15 +873,15 @@ namespace WattSim_03A.ViewModels
 
             AngularVelocity = Velocity / OuterDiameter;
 
-            if (BrakePos > 0)
-            {
-                double KineticEnergyChange = KineticEnergy -
-                    KineticEnergyPrev;
-                double EnergyToDisc = KineticEnergyChange / 4;
-                double DiscTemperatureChange = EnergyToDisc / (BrakeMass *
-                    SpecificHeatCapacity);
-                DiscTemperature = DiscTemperature + DiscTemperatureChange;
-            }
+            //if (BrakePos > 0)
+            //{
+            //    double KineticEnergyChange = KineticEnergy -
+            //        KineticEnergyPrev;
+            //    double EnergyToDisc = KineticEnergyChange / 4;
+            //    double DiscTemperatureChange = EnergyToDisc / (BrakeMass *
+            //        SpecificHeatCapacity);
+            //    DiscTemperature = DiscTemperature + DiscTemperatureChange;
+            //}
 
             TimeStamp++;
 
@@ -585,17 +931,17 @@ namespace WattSim_03A.ViewModels
 
             AngularVelocity = Velocity / OuterDiameter;
 
-            if (BrakePos > 0)
-            {
-                double KineticEnergyChange = KineticEnergy -
-                    KineticEnergyPrev;
-                double EnergyToDisc = KineticEnergyChange / 4;
-                double DiscTemperatureChange = EnergyToDisc / (BrakeMass *
-                    SpecificHeatCapacity);
-                DiscTemperature = DiscTemperature + DiscTemperatureChange;
-            }
+            //if (BrakePos > 0)
+            //{
+            //    double KineticEnergyChange = KineticEnergy -
+            //        KineticEnergyPrev;
+            //    double EnergyToDisc = KineticEnergyChange / 4;
+            //    double DiscTemperatureChange = EnergyToDisc / (BrakeMass *
+            //        SpecificHeatCapacity);
+            //    DiscTemperature = DiscTemperature + DiscTemperatureChange;
+            //}
 
-            double Deacceleration = BrakePos;
+            //double Deacceleration = BrakePos;
             //Acceleration = Acceleration - BrakePos;
 
             //  CrankRPM = CrankRPM + ((1 / FinalDrive) * (Acceleration * 

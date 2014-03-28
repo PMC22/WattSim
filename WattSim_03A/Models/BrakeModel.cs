@@ -36,6 +36,7 @@ namespace WattSim_03A.Models
         // Angular velocity of the disc in rad/sec.
         double angularVelocity;
         #endregion
+
         #region System members
         // Brake pedal position, 0-100%.
         double brakePos;
@@ -51,7 +52,7 @@ namespace WattSim_03A.Models
         // Force on rear master cylinder actuator (N).
         double rearCylinderForce;
         // Area of master cylinder piston (m^2).
-        double masterCylinderArea;
+        double masterPistonArea;
         // Area of caliper piston (m^2).
         double calliperPistonArea;
         // Pressure in front braking system (Pa).
@@ -76,6 +77,18 @@ namespace WattSim_03A.Models
         double frontBrakeTorque;
         // Torque on rear brake rotors (Nm).
         double rearBrakeTorque;
+        // Master cylinder piston outer diameter (m).
+        double masterPistonOuterDiameter;
+        // Master cylinder piston inner diameter (m).
+        double masterPistonInnerDiameter;
+        // Brake pad mean radius (m).
+        double brakePadMeanRadius;
+        // Brake bias.
+        double brakeBias;
+        // Calliper piston outer diameter (m).
+        double calliperPistonOuterDiameter;
+        // Calliper piston inner diameter (m).
+        double calliperPistonInnerDiameter;
         #endregion
         #endregion
 
@@ -207,6 +220,7 @@ namespace WattSim_03A.Models
             set { angularVelocity = value; }
         }
         #endregion
+
         #region System properties
         /// <summary>
         /// Brake pedal position, 0-100%.
@@ -214,7 +228,48 @@ namespace WattSim_03A.Models
         public double BrakePos
         {
             get { return brakePos; }
-            set { brakePos = value; }
+            set 
+            { 
+                brakePos = value;
+                brakePedalForce = brakePos * 2000;
+                //  Force on master cylinder actuators (N)
+                masterCylinderForce = brakePedalForce * brakePedalRatio;
+                //  Force on front master cylinder actuator (N)
+                frontCylinderForce = masterCylinderForce * brakeBias;
+                //  Force on rear master cylinder actuator (N)
+                rearCylinderForce = masterCylinderForce * (1 - brakeBias);
+                //  Area of master cylinder piston (m^2)
+                masterPistonArea = circleArea(1, masterPistonOuterDiameter)
+                    - circleArea(1, masterPistonInnerDiameter);
+                //  Area of caliper piston (m^2)
+                calliperPistonArea = circleArea(1, 
+                    calliperPistonOuterDiameter) 
+                    - circleArea(1, calliperPistonInnerDiameter);
+                //  Pressure in front braking system (Pa)
+                frontBrakeSysPressure = pressure(0, frontCylinderForce, 
+                    masterPistonArea);
+                //  Pressure in rear braking system (Pa)
+                rearBrakeSysPressure = pressure(0, rearCylinderForce, 
+                    masterPistonArea);
+                //  Total force on front caliper pistons (N)
+                frontCalliperForce = force(0, frontBrakeSysPressure, 
+                    calliperPistonArea * numPistonsFront);
+                //  Total force on rear caliper pistons (N)
+                rearCalliperForce = force(0,rearBrakeSysPressure, 
+                    calliperPistonArea*numPistonsRear);
+                //  Tangential force on front discs due to friction (N)
+                frontBrakeForce = force(1, frontCalliperForce, 
+                    discPadFriction);
+                //  Tangential force on rear discs due to friction (N)
+                rearBrakeForce = force(1, rearCalliperForce, 
+                    discPadFriction);
+                //  Torque on front brake rotors (Nm)
+                frontBrakeTorque = torque(0, frontBrakeForce,
+                    brakePadMeanRadius);
+                //  Torque on rear brake rotors (Nm)
+                rearBrakeTorque = torque(0, rearBrakeForce, 
+                    brakePadMeanRadius);
+            }
         }
         /// <summary>
         /// Brake pedal force in N.
@@ -259,10 +314,10 @@ namespace WattSim_03A.Models
         /// <summary>
         /// Area of master cylinder piston (m^2).
         /// </summary>
-        public double MasterCylinderArea
+        public double MasterPistonArea
         {
-            get { return masterCylinderArea; }
-            set { masterCylinderArea = value; }
+            get { return masterPistonArea; }
+            set { masterPistonArea = value; }
         }
         /// <summary>
         /// Area of caliper piston (m^2).
@@ -360,7 +415,106 @@ namespace WattSim_03A.Models
             get { return rearBrakeTorque; }
             set { rearBrakeTorque = value; }
         }
+        /// <summary>
+        /// Master cylinder piston outer diameter (m).
+        /// </summary>
+        public double MasterPistonOuterDiameter
+        {
+            get { return masterPistonOuterDiameter; }
+            set { masterPistonOuterDiameter = value; }
+        }
+        /// <summary>
+        /// Master cylinder piston inner diameter (m).
+        /// </summary>
+        public double MasterPistonInnerDiameter
+        {
+            get { return masterPistonInnerDiameter; }
+            set { masterPistonInnerDiameter = value; }
+        }
+        /// <summary>
+        /// Brake pad mean radius (m).
+        /// </summary>
+        public double BrakePadMeanRadius
+        {
+            get { return brakePadMeanRadius; }
+            set { brakePadMeanRadius = value; }
+        }
+        /// <summary>
+        /// Brake bias.
+        /// </summary>
+        public double BrakeBias
+        {
+            get { return brakeBias; }
+            set { brakeBias = value; }
+        }
         #endregion
+        #endregion
+
+        #region Functions
+        double circleArea(int mode, double dimension)
+        {
+            if (mode == 0)
+            {
+                double radius;
+                radius = dimension;
+                return (Math.PI * radius * radius);
+            }
+            else if (mode == 1)
+            {
+                double diameter;
+                diameter = dimension;
+                return ((Math.PI * (diameter * diameter)) / 4);
+            }
+            else
+                return 0;
+        }
+        double pressure(int mode, double dimension1, double dimension2)
+        {
+            if (mode == 0)
+            {
+                double force;
+                double area;
+                force = dimension1;
+                area = dimension2;
+                return (force / area);
+            }
+            else
+                return 0;
+        }
+        double force(int mode, double dimension1, double dimension2)
+        {
+            if (mode == 0)
+            {
+                double pressure;
+                double area;
+                pressure = dimension1;
+                area = dimension2;
+                return pressure * area;
+            }
+            else if (mode == 1)
+            {
+                double normalForce;
+                double frictionCoefficiant;
+                normalForce = dimension1;
+                frictionCoefficiant = dimension2;
+                return (normalForce * frictionCoefficiant);
+            }
+            else
+                return 0;
+        }
+        double torque(int mode, double dimension1, double dimension2)
+        {
+            if (mode == 0)
+            {
+                double force;
+                double distance;
+                force = dimension1;
+                distance = dimension2;
+                return (force * distance);
+            }
+            else 
+                return 0;
+        }
         #endregion
     }
 }
