@@ -5,73 +5,244 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="889"
-	Title="BrakeSetupPage">
+	Title="BrakeSetupPage" MinWidth="889" MinHeight="500">
     <Page.Background>
-        <ImageBrush Stretch="UniformToFill" ImageSource="/WattSim_03A;component/Images/Grassy.jpg" Opacity="1"/>
+        <ImageBrush Stretch="UniformToFill" 
+                    ImageSource="/WattSim_03A;component/Images/Grassy.jpg" Opacity="1"/>
     </Page.Background>
 
-    <Grid DataContext="{Binding Mode=OneWay, Source={StaticResource _SimulationViewModel}}">
+    <Grid DataContext="{Binding Mode=OneWay, 
+        Source={StaticResource _SimulationViewModel}}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="25" MinWidth="15"/>
-            <ColumnDefinition Width="58*" MinWidth="105"/>
-            <ColumnDefinition Width="58*" MinWidth="110"/>
-            <ColumnDefinition Width="58*" MinWidth="40"/>
-            <ColumnDefinition Width="58*" MinWidth="40"/>
-            <ColumnDefinition Width="58*" MinWidth="40"/>
-            <ColumnDefinition Width="58*" MinWidth="100"/>
-            <ColumnDefinition Width="58*" MinWidth="40"/>
-            <ColumnDefinition Width="58*" MinWidth="54"/>
+            <ColumnDefinition Width="141*" MinWidth="105"/>
+            <ColumnDefinition Width="110*" MinWidth="110"/>
+            <ColumnDefinition Width="84*" MinWidth="40"/>
+            <ColumnDefinition Width="88*" MinWidth="40"/>
+            <ColumnDefinition Width="50*" MinWidth="40"/>
+            <ColumnDefinition Width="158*" MinWidth="100"/>
+            <ColumnDefinition Width="104*" MinWidth="40"/>
+            <ColumnDefinition Width="104*" MinWidth="54"/>
             <ColumnDefinition Width="25" MinWidth="15"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="25" MinHeight="15"/>
-            <RowDefinition Height="25*" MinHeight="37"/>
-            <RowDefinition Height="10*" MinHeight="5"/>
-            <RowDefinition Height="25*" MinHeight="30"/>
-            <RowDefinition Height="25*" MinHeight="30"/>
-            <RowDefinition Height="25*" MinHeight="30"/>
-            <RowDefinition Height="25*" MinHeight="30"/>
-            <RowDefinition Height="25*" MinHeight="30"/>
-            <RowDefinition Height="25*" MinHeight="30"/>
-            <RowDefinition Height="25*" MinHeight="30"/>
+            <RowDefinition Height="71*" MinHeight="37"/>
+            <RowDefinition Height="24*" MinHeight="5"/>
+            <RowDefinition Height="30*" MinHeight="30"/>
+            <RowDefinition Height="30*" MinHeight="30"/>
+            <RowDefinition Height="30*" MinHeight="30"/>
+            <RowDefinition Height="33*" MinHeight="30"/>
+            <RowDefinition Height="33*" MinHeight="30"/>
+            <RowDefinition Height="33*" MinHeight="30"/>
+            <RowDefinition Height="33*" MinHeight="30"/>
+            <RowDefinition Height="39*" MinHeight="30"/>
+            <RowDefinition Height="40*" MinHeight="30"/>
+            <RowDefinition Height="39*" MinHeight="30"/>
+            <RowDefinition Height="40*" MinHeight="30"/>
+            <RowDefinition Height="39*" MinHeight="30"/>
             <RowDefinition Height="25" MinHeight="15"/>
         </Grid.RowDefinitions>
-        <Rectangle x:Name="BrakePropsBackground" Grid.ColumnSpan="3" Grid.Column="1" Grid.Row="3" Grid.RowSpan="5">
+        <Rectangle x:Name="BrakePropsBackground" 
+                   Grid.ColumnSpan="3" Grid.Column="1" Grid.Row="3" 
+                   Grid.RowSpan="12">
             <Rectangle.Fill>
                 <SolidColorBrush Color="#FFF4F4F5" Opacity="0.5"/>
             </Rectangle.Fill>
         </Rectangle>
-        <Rectangle x:Name="BrakeTitleBackground" Grid.ColumnSpan="10" Grid.Row="1">
+        <Rectangle x:Name="BrakeTitleBackground" Grid.ColumnSpan="10" 
+                   Grid.Row="1">
             <Rectangle.Fill>
                 <SolidColorBrush Color="#FFF4F4F5" Opacity="0.5"/>
             </Rectangle.Fill>
         </Rectangle>
-        <Rectangle x:Name="MaterialBackground" Grid.ColumnSpan="3" Grid.Column="6" Grid.Row="3" Grid.RowSpan="4">
+        <Rectangle x:Name="MaterialBackground" Grid.ColumnSpan="3" 
+                   Grid.Column="6" Grid.Row="3" Grid.RowSpan="12">
             <Rectangle.Fill>
                 <SolidColorBrush Color="#FFF4F4F5" Opacity="0.5"/>
             </Rectangle.Fill>
         </Rectangle>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Brake System Setup" VerticalAlignment="Center" FontSize="20" Grid.ColumnSpan="2" FontWeight="Bold" FontStyle="Italic"/>
-        <TextBlock x:Name="DiscOuterDiameterLabel" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="3" TextWrapping="Wrap" Text="Disc Outer Diameter" VerticalAlignment="Center"/>
-        <TextBlock x:Name="DiscOuterDiameterValue" Grid.Column="2" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="3" TextWrapping="Wrap" Text="{Binding OuterDiameter}" VerticalAlignment="Center"/>
-        <TextBlock x:Name="DiscInnerDiameterLabel" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="4" TextWrapping="Wrap" Text="Disc Inner Diameter" VerticalAlignment="Center"/>
-        <TextBlock x:Name="DiscInnerDiameterValue" Grid.Column="2" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="4" TextWrapping="Wrap" Text="{Binding InnerDiameter}" VerticalAlignment="Center"/>
-        <TextBlock x:Name="DiscThicknessLabel" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="5" TextWrapping="Wrap" Text="Disc Thickness" VerticalAlignment="Center"/>
-        <TextBlock x:Name="DiscThicknessValue" Grid.Column="2" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="5" TextWrapping="Wrap" Text="{Binding Thickness}" VerticalAlignment="Center"/>
-        <TextBox x:Name="DiscOuterDiameterNewValue" Grid.Column="3" HorizontalAlignment="Left" Height="25" Margin="5,0,0,0" Grid.Row="3" TextWrapping="Wrap" Text="{Binding OuterDiameter}" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
-        <TextBox Grid.Column="3" HorizontalAlignment="Left" Height="25" Margin="5,0,0,0" Grid.Row="4" TextWrapping="Wrap" Text="{Binding InnerDiameter}" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="DiscThicknessNewValue" Grid.Column="3" HorizontalAlignment="Left" Height="25" Margin="5,0,0,0" Grid.Row="5" TextWrapping="Wrap" Text="{Binding Thickness}" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
-        <Label x:Name="MaterialLabel" Content="Material" Grid.Column="6" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="3" VerticalAlignment="Center"/>
-        <Label x:Name="MaterialDensityLabel" Content="Density" Grid.Column="6" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="4" VerticalAlignment="Center"/>
-        <Label x:Name="MaterialSpecificHeatCapacityLabel" Content="Spec. Heat Cap." Grid.Column="6" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="5" VerticalAlignment="Center" MinWidth="96"/>
-        <Label x:Name="MaterialTensileModulusLabel" Content="Tensile Modulus" Grid.Column="6" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="6" VerticalAlignment="Center"/>
-        <Label x:Name="MaterialDensityValue" Content="{Binding Density}" Grid.Column="7" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="4" VerticalAlignment="Center"/>
-        <Label x:Name="MaterialSpecificHeatCapacityValue" Content="{Binding SpecificHeatCapacity}" Grid.Column="7" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="5" VerticalAlignment="Center"/>
-        <Label x:Name="MaterialTensileModulusValue" Content="{Binding TensileModulus}" Grid.Column="7" Margin="5,0,0,0" Grid.Row="6" VerticalAlignment="Center"/>
-        <Label x:Name="DiscVolumeLabel" Content="Volume" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="9" VerticalAlignment="Center"/>
-        <Label x:Name="DiscVolumeValue" Content="{Binding Volume}" Grid.Column="2" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="9" VerticalAlignment="Center"/>
-        <Label x:Name="DiscMassLabel" Content="Mass" Grid.Column="4" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="9" VerticalAlignment="Center"/>
-        <Label x:Name="DiscMassValue" Content="{Binding BrakeMass}" Grid.Column="5" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="9" VerticalAlignment="Center"/>
-        <TextBox x:Name="MaterialDensityNewValue" Grid.Column="8" HorizontalAlignment="Left" Height="25" Margin="10,0,0,0" Grid.Row="4" TextWrapping="Wrap" Text="{Binding Density}" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" 
+                   Margin="5,18,0,17" Grid.Row="1" TextWrapping="Wrap" 
+                   Text="Brake System Setup" VerticalAlignment="Center" 
+                   FontSize="20" Grid.ColumnSpan="3" FontWeight="Bold" 
+                   FontStyle="Italic" Width="320" Height="27"/>
+        <TextBlock x:Name="DiscOuterDiameterLabel" Grid.Column="1" 
+                   HorizontalAlignment="Left" Margin="5,6,0,8" Grid.Row="4" 
+                   TextWrapping="Wrap" Text="Disc Outer Diameter" 
+                   VerticalAlignment="Center" Width="116" Height="16"/>
+        <TextBlock x:Name="DiscOuterDiameterValue" Grid.Column="2" 
+                   HorizontalAlignment="Left" Margin="5,6,0,8" Grid.Row="4" 
+                   
+                   TextWrapping="Wrap" Text="{Binding OuterDiameter}"
+                   VerticalAlignment="Center" Height="16" Width="22"/>
+        <TextBlock x:Name="DiscInnerDiameterLabel" Grid.Column="1" 
+                   HorizontalAlignment="Left" Margin="5,6,0,8" Grid.Row="5" 
+                   TextWrapping="Wrap" Text="Disc Inner Diameter" 
+                   VerticalAlignment="Center" Width="116" Height="16"/>
+        <TextBlock x:Name="DiscInnerDiameterValue" Grid.Column="2" 
+                   HorizontalAlignment="Left" Margin="5,2,0,12" Grid.Row="5" 
+                   TextWrapping="Wrap" Text="{Binding InnerDiameter}" 
+                   VerticalAlignment="Center" Height="16" Width="16"/>
+        <TextBlock x:Name="DiscThicknessLabel" Grid.Column="1" 
+                   HorizontalAlignment="Left" Margin="5,6,0,8" Grid.Row="6" 
+                   TextWrapping="Wrap" Text="Disc Thickness" 
+                   VerticalAlignment="Center" Height="16" Width="76"/>
+        <TextBlock x:Name="DiscThicknessValue" Grid.Column="2" 
+                   HorizontalAlignment="Left" Margin="5,8,0,6" Grid.Row="6" 
+                   TextWrapping="Wrap" Text="{Binding Thickness}" 
+                   VerticalAlignment="Center" Height="16" Width="28"/>
+        <TextBox x:Name="DiscOuterDiameterNewValue" Grid.Column="3" 
+                 HorizontalAlignment="Left" Margin="5,4,0,8" Grid.Row="4" 
+                 TextWrapping="Wrap" Text="{Binding OuterDiameter}" 
+                 VerticalAlignment="Center" VerticalContentAlignment="Center" 
+                 Width="52" Height="18"/>
+        <TextBox Grid.Column="3" HorizontalAlignment="Left" Margin="5,4,0,8" 
+                 Grid.Row="5" TextWrapping="Wrap" 
+                 Text="{Binding InnerDiameter}" VerticalAlignment="Center" 
+                 VerticalContentAlignment="Center" Width="52" Height="18"/>
+        <TextBox x:Name="DiscThicknessNewValue" Grid.Column="3" 
+                 HorizontalAlignment="Left" Margin="5,7,0,5" Grid.Row="6" 
+                 TextWrapping="Wrap" Text="{Binding Thickness}" 
+                 VerticalAlignment="Center" VerticalContentAlignment="Center" 
+                 Width="52" Height="18"/>
+        <Label x:Name="MaterialLabel" Content="Material" Grid.Column="6" 
+               HorizontalAlignment="Left" Margin="5,9,0,29" Grid.Row="9" 
+               VerticalAlignment="Center" Height="26" Width="53" FontStyle="Italic" Grid.RowSpan="2"/>
+        <Label x:Name="MaterialDensityLabel" Content="Density" Grid.Column="6" 
+               HorizontalAlignment="Left" Margin="5,9,0,34" Grid.Row="10" 
+               VerticalAlignment="Center" Height="26" Width="49" Grid.RowSpan="2"/>
+        <Label x:Name="MaterialSpecificHeatCapacityLabel" 
+               Content="Spec. Heat Cap." Grid.Column="6" 
+               HorizontalAlignment="Left" Margin="5,7,0,2" Grid.Row="11" 
+               VerticalAlignment="Center" MinWidth="96" Height="26" Width="96"/>
+        <Label x:Name="MaterialTensileModulusLabel" Content="Tensile Modulus" 
+               Grid.Column="6" HorizontalAlignment="Left" Margin="5,3,0,8" 
+               Grid.Row="12" VerticalAlignment="Center" Height="23" Width="96"/>
+        <Label x:Name="MaterialDensityValue" Content="{Binding Density}" 
+               Grid.Column="7" HorizontalAlignment="Left" Margin="5,9,0,34" 
+               Grid.Row="10" VerticalAlignment="Center" Height="26" Width="36" Grid.RowSpan="2"/>
+        <Label x:Name="MaterialSpecificHeatCapacityValue" 
+               Content="{Binding SpecificHeatCapacity}" Grid.Column="7" 
+               HorizontalAlignment="Left" Margin="5,7,0,2" Grid.Row="11" 
+               VerticalAlignment="Center" Height="26" Width="29"/>
+        <Label x:Name="MaterialTensileModulusValue" 
+               Content="{Binding TensileModulus}" Grid.Column="7" 
+               Margin="5,3,0,8" Grid.Row="12" VerticalAlignment="Center" 
+               Height="23"/>
+        <Label x:Name="DiscVolumeLabel" Content="Volume" Grid.Column="6" 
+               HorizontalAlignment="Left" Margin="9,5,0,3" Grid.Row="14" 
+               VerticalAlignment="Center" Height="26" Width="51"/>
+        <Label x:Name="DiscVolumeValue" Content="{Binding Volume}" 
+               Grid.Column="7" HorizontalAlignment="Left" Margin="4,2,0,6" 
+               Grid.Row="14" VerticalAlignment="Center" Height="26" Width="105" Grid.ColumnSpan="2"/>
+        <Label x:Name="DiscMassLabel" Content="Mass" Grid.Column="6" 
+               HorizontalAlignment="Left" Margin="10,3,0,6" Grid.Row="13" 
+               VerticalAlignment="Center" Height="26" Width="37"/>
+        <Label x:Name="DiscMassValue" Content="{Binding BrakeMass}" 
+               Grid.Column="7" HorizontalAlignment="Left" Margin="0,5,0,4" 
+               Grid.Row="13" VerticalAlignment="Center" Height="26" Width="99"/>
+        <TextBox x:Name="MaterialDensityNewValue" Grid.Column="8" 
+                 HorizontalAlignment="Left" Height="26" Margin="10,9,0,34" 
+                 Grid.Row="10" TextWrapping="Wrap" Text="{Binding Density}" 
+                 VerticalAlignment="Center" VerticalContentAlignment="Center" 
+                 Width="32" Grid.RowSpan="2"/>
+        <TextBlock x:Name="BrakePedalRatioLabel" Grid.Column="1" 
+                   HorizontalAlignment="Left" Margin="5,9,0,5" Grid.Row="8" 
+                   TextWrapping="Wrap" Text="Brake Pedal Ratio" 
+                   VerticalAlignment="Center" Width="116" Height="16"/>
+        <TextBlock x:Name="BrakePedalRatioValue" Grid.Column="2" 
+                   HorizontalAlignment="Left" Margin="5,9,0,5" Grid.Row="8" 
+                   TextWrapping="Wrap" Text="{Binding BrakePedalRatio}"
+                   VerticalAlignment="Center" Height="16" Width="22"/>
+        <TextBlock x:Name="NumbForntPistonsLabel" Grid.Column="1" 
+                   HorizontalAlignment="Left" Margin="5,9,0,5" Grid.Row="9" 
+                   TextWrapping="Wrap" Text="Front Pistons" 
+                   VerticalAlignment="Center" Width="116" Height="16"/>
+        <TextBlock x:Name="NumFrontPistonsValue" Grid.Column="2" 
+                   HorizontalAlignment="Left" Margin="5,5,0,9" Grid.Row="9" 
+                   TextWrapping="Wrap" Text="{Binding NumPistonsFront}" 
+                   VerticalAlignment="Center" Height="16" Width="16"/>
+        <TextBlock x:Name="NumRearPistonsLabel" Grid.Column="1" Margin="5,9,60,9" Grid.Row="10" 
+                   TextWrapping="Wrap" Text="Rear Pistons" 
+                   VerticalAlignment="Center" Height="16"/>
+        <TextBlock x:Name="NumRearPistonsValue" Grid.Column="2" 
+                   HorizontalAlignment="Left" Margin="5,11,0,7" Grid.Row="10" 
+                   TextWrapping="Wrap" Text="{Binding NumPistonsRear}" 
+                   VerticalAlignment="Center" Height="16" Width="28"/>
+        <TextBox x:Name="BrakePedalRatioNewValue" Grid.Column="3" 
+                 HorizontalAlignment="Left" Margin="5,7,0,5" Grid.Row="8" 
+                 TextWrapping="Wrap" Text="{Binding BrakePedalRatio}" 
+                 VerticalAlignment="Center" VerticalContentAlignment="Center" 
+                 Width="52" Height="18"/>
+        <TextBox x:Name="NumFrontPistonsNewValue" HorizontalAlignment="Left" 
+                 Margin="5,4,0,8" Grid.Row="9" TextWrapping="Wrap" 
+                 Text="{Binding NumPistonsFront}" VerticalAlignment="Center" 
+                 VerticalContentAlignment="Center" Width="52" Grid.Column="3" Height="18"/>
+        <TextBox x:Name="NumRearPistonsNewValue" Grid.Column="3" 
+                 HorizontalAlignment="Left" Margin="5,10,0,6" Grid.Row="10" 
+                 TextWrapping="Wrap" Text="{Binding NumPistonsRear}" 
+                 VerticalAlignment="Center" VerticalContentAlignment="Center" 
+                 Width="52" Height="18"/>
+        <TextBlock x:Name="DiscPadFrictionCoeffLabel" Grid.Column="1" Margin="5,8,60,11" Grid.Row="11" 
+        	TextWrapping="Wrap" Text="Pad/Disc Friction" 
+        	VerticalAlignment="Center" Height="16"/>
+        <TextBlock x:Name="DiscPadFrictionCoeffValue" Grid.Column="2" 
+        	HorizontalAlignment="Left" Margin="5,10,0,9" Grid.Row="11" 
+        	TextWrapping="Wrap" Text="{Binding DiscPadFriction}" 
+        	VerticalAlignment="Center" Height="16" Width="28"/>
+        <TextBox x:Name="DiscPadFrictionCoeffNewValue" Grid.Column="3" 
+        	HorizontalAlignment="Left" Margin="5,9,0,8" Grid.Row="11" 
+        	TextWrapping="Wrap" Text="{Binding DiscPadFriction}" 
+        	VerticalAlignment="Center" VerticalContentAlignment="Center" 
+        	Width="52" Height="18"/>
+        <TextBlock x:Name="MasterPistonOuterDiameterLabel" Grid.Column="1" Margin="5,8,10,10" Grid.Row="12" 
+        	TextWrapping="Wrap" Text="Master cylinder Piston OD" 
+        	VerticalAlignment="Center" Height="16"/>
+        <TextBlock x:Name="MasterPistonOuterDiameterValue" Grid.Column="2" 
+        	HorizontalAlignment="Left" Margin="5,10,0,8" Grid.Row="12" 
+        	TextWrapping="Wrap" Text="{Binding MasterPistonOuterDiameter}" 
+        	VerticalAlignment="Center" Height="16" Width="28"/>
+        <TextBox x:Name="MasterPistonOuterDiameterNewValue" Grid.Column="3" 
+        	HorizontalAlignment="Left" Margin="5,9,0,7" Grid.Row="12" 
+        	TextWrapping="Wrap" Text="{Binding MasterPistonOuterDiameter}" 
+        	VerticalAlignment="Center" VerticalContentAlignment="Center" 
+        	Width="69" Height="18"/>
+        <TextBlock x:Name="MasterPistonInnerDiameterLabel" Grid.Column="1" Margin="5,8,10,11" Grid.Row="13" 
+        	TextWrapping="Wrap" Text="Master cylinder Piston ID" 
+        	VerticalAlignment="Center" Height="16"/>
+        <TextBlock x:Name="MasterPistonInnerDiameterValue" Grid.Column="2" 
+        	HorizontalAlignment="Left" Margin="5,10,0,9" Grid.Row="13" 
+        	TextWrapping="Wrap" Text="{Binding MasterPistonInnerDiameter}" 
+        	VerticalAlignment="Center" Height="16" Width="28"/>
+        <TextBox x:Name="MasterPistonInnerDiameterNewValue" Grid.Column="3" 
+        	HorizontalAlignment="Left" Margin="5,10,0,8" Grid.Row="13" 
+        	TextWrapping="Wrap" Text="{Binding MasterPistonInnerDiameter}" 
+        	VerticalAlignment="Center" VerticalContentAlignment="Center" 
+        	Width="52" Height="17"/>
+        <TextBlock x:Name="CalliperPistonOuterDiameterLabel" Grid.Column="6" Margin="3,4,101,10" Grid.Row="3" 
+        	TextWrapping="Wrap" Text="Calliper cylinder Piston OD" 
+        	VerticalAlignment="Center" Height="16" Grid.ColumnSpan="2"/>
+        <TextBlock x:Name="CalliperPistonOuterDiameterValue" Grid.Column="7" 
+        	HorizontalAlignment="Left" Margin="18,6,0,8" Grid.Row="3" 
+        	TextWrapping="Wrap" Text="{Binding CalliperPistonOuterDiameter}" 
+        	VerticalAlignment="Center" Height="16" Width="28"/>
+        <TextBox x:Name="CalliperPistonOuterDiameterNewValue" Grid.Column="8" 
+        	HorizontalAlignment="Left" Margin="24,5,0,7" Grid.Row="3" 
+        	TextWrapping="Wrap" Text="{Binding CalliperPistonOuterDiameter}" 
+        	VerticalAlignment="Center" VerticalContentAlignment="Center" 
+        	Width="69" Height="18"/>
+        <TextBlock x:Name="CalliperPistonInnerDiameterLabel" Grid.Column="6" Margin="3,8,101,6" Grid.Row="4" 
+        	TextWrapping="Wrap" Text="Calliper cylinder Piston ID" 
+        	VerticalAlignment="Center" Height="16" Grid.ColumnSpan="2"/>
+        <TextBlock x:Name="CalliperPistonInnerDiameterValue" Grid.Column="7" 
+        	HorizontalAlignment="Left" Margin="18,10,0,4" Grid.Row="4" 
+        	TextWrapping="Wrap" Text="{Binding CalliperPistonInnerDiameter}" 
+        	VerticalAlignment="Center" Height="16" Width="28"/>
+        <TextBox x:Name="CalliperPistonInnerDiameterNewValue" Grid.Column="8" 
+        	HorizontalAlignment="Left" Margin="24,10,0,2" Grid.Row="4" 
+        	TextWrapping="Wrap" Text="{Binding CalliperPistonInnerDiameter}" 
+        	VerticalAlignment="Center" VerticalContentAlignment="Center" 
+        	Width="52" Height="18"/>
     </Grid>
 </Page>

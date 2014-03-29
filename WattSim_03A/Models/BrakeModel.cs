@@ -447,6 +447,22 @@ namespace WattSim_03A.Models
             get { return brakeBias; }
             set { brakeBias = value; }
         }
+        /// <summary>
+        /// Calliper piston outer diameter (m).
+        /// </summary>
+        public double CalliperPistonOuterDiameter
+        {
+            get { return calliperPistonOuterDiameter; }
+            set { calliperPistonOuterDiameter = value; }
+        }
+        /// <summary>
+        /// Calliper piston inner diameter (m).
+        /// </summary>
+        public double CalliperPistonInnerDiameter
+        {
+            get { return calliperPistonInnerDiameter; }
+            set { calliperPistonInnerDiameter = value; }
+        }
         #endregion
         #endregion
 

@@ -59,6 +59,8 @@ namespace WattSim_03A.ViewModels
                 BrakePedalRatio = 4.89,
                 MasterPistonOuterDiameter = 0.019734,
                 MasterPistonInnerDiameter = 0,
+                CalliperPistonOuterDiameter = 0.019734,
+                CalliperPistonInnerDiameter = 0,
                 NumPistonsFront = 4,
                 NumPistonsRear = 2,
                 DiscPadFriction = 0.55,
@@ -828,6 +830,36 @@ namespace WattSim_03A.ViewModels
                 {
                     Brake.MasterPistonInnerDiameter = value;
                     RaisePropertyChanged("MasterPistonInnerDiameter");
+                }
+            }
+        }
+        /// <summary>
+        /// Calliper cylinder piston outer diameter (m).
+        /// </summary>
+        public double CalliperPistonOuterDiameter
+        {
+            get { return Brake.CalliperPistonOuterDiameter; }
+            set
+            {
+                if (Brake.CalliperPistonOuterDiameter != value)
+                {
+                    Brake.CalliperPistonOuterDiameter = value;
+                    RaisePropertyChanged("CalliperPistonOuterDiameter");
+                }
+            }
+        }
+        /// <summary>
+        /// Calliper cylinder piston inner diameter (m).
+        /// </summary>
+        public double CalliperPistonInnerDiameter
+        {
+            get { return Brake.CalliperPistonInnerDiameter; }
+            set
+            {
+                if (Brake.CalliperPistonInnerDiameter != value)
+                {
+                    Brake.CalliperPistonInnerDiameter = value;
+                    RaisePropertyChanged("CalliperPistonInnerDiameter");
                 }
             }
         }
