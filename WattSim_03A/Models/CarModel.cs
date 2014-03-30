@@ -103,22 +103,6 @@ namespace WattSim_03A.Models
             set { cogVert = value; }
         }
         /// <summary>
-        /// Max engine speed, in RPM, measure at the crankshaft.
-        /// </summary>
-        //public double MaxRPM
-        //{
-        //    get { return maxRPM; }
-        //    set { maxRPM = value; }
-        //}
-        /// <summary>
-        /// Max engine power, in W, measure at the crankshaft.
-        /// </summary>
-        //public double MaxPower
-        //{
-        //    get { return maxPower; }
-        //    set { maxPower = value; }
-        //}
-        /// <summary>
         /// Max engine torque, in Nm, measure at the crankshaft.
         /// </summary>
         public double MaxTorque
@@ -126,30 +110,6 @@ namespace WattSim_03A.Models
             get { return maxTorque; }
             set { maxTorque = value; }
         }
-        /// <summary>
-        /// Idle engine speed, in RPM, measure at the crankshaft.
-        /// </summary>
-        //public double IdleRPM
-        //{
-        //    get { return idleRPM; }
-        //    set { idleRPM = value; }
-        //}
-        /// <summary>
-        /// Idle engine power, in W, measure at the crankshaft.
-        /// </summary>
-        //public double IdlePower
-        //{
-        //    get { return idlePower; }
-        //    set { idlePower = value; }
-        //}
-        /// <summary>
-        /// Idle engine torque, in Nm, measure at the crankshaft.
-        /// </summary>
-        //public double IdleTorque
-        //{
-        //    get { return idleTorque; }
-        //    set { idleTorque = value; }
-        //}
         /// <summary>
         /// Final drive ratio.
         /// </summary>
@@ -184,7 +144,6 @@ namespace WattSim_03A.Models
             { 
                 throttlePos = value;
                 crankTorque = maxTorque * throttlePos;
-                acceleration = (crankTorque / wheelInertia) * tyreRadius;
             }
         }
         /// <summary>

@@ -287,7 +287,7 @@ namespace WattSim_03A.Views
             this.Time = Time;
             this.Velocity = Velocity;
             this.Acceleration = Acceleration;
-            this.Temperature = Temperature - 270;
+            this.Temperature = Temperature;
         }   // End of SimData constructor.
     }   // End of class SimData.
 

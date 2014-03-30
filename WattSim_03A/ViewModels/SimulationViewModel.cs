@@ -30,10 +30,6 @@ namespace WattSim_03A.ViewModels
                 TyreRadius = 0.508,
                 WheelInertia = 7.5,
                 MaxTorque = 55,
-                //IdlePower = 7457,   // 10 hp = 7457 W
-                //MaxPower = 75762,   // 101.6 hp = 75762 W
-                //IdleRPM = 2000,
-                //MaxRPM = 14000,
                 FinalDrive = 11.04,
 
                 ThrottlePos = 0,
@@ -57,6 +53,7 @@ namespace WattSim_03A.ViewModels
 
                 BrakePos = 0,
                 BrakePedalRatio = 4.89,
+                BrakeBias = 0.6,
                 MasterPistonOuterDiameter = 0.019734,
                 MasterPistonInnerDiameter = 0,
                 CalliperPistonOuterDiameter = 0.019734,
@@ -66,19 +63,6 @@ namespace WattSim_03A.ViewModels
                 DiscPadFriction = 0.55,
                 BrakePadMeanRadius = 0.1,
             };
-            #endregion
-
-            #region View model members
-            // Ambient temperature in Kelvin.
-            double airTemp = 300;
-            // Force at contact patch of front wheels (N).
-            double frontBrakeForce = _Brake.FrontBrakeTorque / _Car.TyreRadius;
-            // Force at contact patch of rear wheels (N).
-            double rearBrakeForce = _Brake.RearBrakeTorque / _Car.TyreRadius;
-            // Total force slowing car (N).
-            double totalBrakeForce = frontBrakeForce + rearBrakeForce;
-            // Final acceleration of car due to braking (m/s^2).
-            double accelerationFromBrakes = - totalBrakeForce / _Car.Mass;
             #endregion
 
             #region Create text file
@@ -101,8 +85,12 @@ namespace WattSim_03A.ViewModels
         Models.CarModel _Car;
         Models.BrakeModel _Brake;
 
+        public double FrontBrakeForce;
+        public double RearBrakeForce;
+        public double TotalBrakeForce;
         public string LocalDir;
-        int TimeStamp = 0;
+        double TimeStamp = 0;
+        double Increment = 0.01;
         #endregion
 
         #region Car Properties
@@ -197,78 +185,6 @@ namespace WattSim_03A.ViewModels
                 }
             }
         }
-        //public double CrankRPM
-        //{
-        //    get { return Car.CrankRPM; }
-        //    set
-        //    {
-        //        if (Car.CrankRPM != value)
-        //        {
-        //            Car.CrankRPM = value;
-        //            RaisePropertyChanged("CrankRPM");
-        //        }
-        //    }
-        //}
-        //public double IdlePower
-        //{
-        //    get { return Car.IdlePower; }
-        //    set
-        //    {
-        //        if (Car.IdlePower != value)
-        //        {
-        //            Car.IdlePower = value;
-        //            RaisePropertyChanged("IdlePower");
-        //        }
-        //    }
-        //}
-        //public double IdleRPM
-        //{
-        //    get { return Car.IdleRPM; }
-        //    set
-        //    {
-        //        if (Car.IdleRPM != value)
-        //        {
-        //            Car.IdleRPM = value;
-        //            RaisePropertyChanged("IdleRPM");
-        //        }
-        //    }
-        //}
-        //public double CrankPower
-        //{
-        //    get { return Car.CrankPower; }
-        //    set
-        //    {
-        //        if (Car.CrankPower != value)
-        //        {
-        //            Car.CrankPower = value;
-        //            RaisePropertyChanged("CrankPower");
-        //        }
-        //    }
-        //}
-        //public double MaxPower
-        //{
-        //    get { return Car.MaxPower; }
-        //    set
-        //    {
-        //        if (Car.MaxPower != value)
-        //        {
-        //            Car.MaxPower = value;
-        //            RaisePropertyChanged("MaxPower");
-        //        }
-        //    }
-        //}
-        //public double MaxRPM
-        //{
-        //    get { return Car.MaxRPM; }
-        //    set
-        //    {
-        //        if (Car.MaxRPM != value)
-        //        {
-        //            Car.MaxRPM = value;
-        //            RaisePropertyChanged("MaxRPM");
-        //        }
-        //    }
-        //}
         public double FinalDrive
         {
             get { return Car.FinalDrive; }
@@ -338,7 +254,7 @@ namespace WattSim_03A.ViewModels
                 {
                     Car.Velocity = value;
                     RaisePropertyChanged("Velocity");
-                    //RaisePropertyChanged("CrankRPM");
+                    RaisePropertyChanged("Acceleration");
                     RaisePropertyChanged("KineticEnergy");
                 }
             }
@@ -530,6 +446,17 @@ namespace WattSim_03A.ViewModels
                 {
                     Brake.BrakePos = value;
                     RaisePropertyChanged("BrakePos");
+                    RaisePropertyChanged("MasterCylinderForce");
+                    RaisePropertyChanged("FrontCylinderForce");
+                    RaisePropertyChanged("RearCylinderForce");
+                    RaisePropertyChanged("FrontBrakeSysPressure");
+                    RaisePropertyChanged("RearBrakeSysPressure");
+                    RaisePropertyChanged("FrontCalliperForce");
+                    RaisePropertyChanged("RearCalliperForce");
+                    RaisePropertyChanged("FrontDiscForce");
+                    RaisePropertyChanged("RearDiscForce");
+                    RaisePropertyChanged("FrontBrakeTorque");
+                    RaisePropertyChanged("RearBrakeTorque");
                 }
             }
         }
@@ -746,7 +673,7 @@ namespace WattSim_03A.ViewModels
         /// <summary>
         /// Force on front discs due to friction (N).
         /// </summary>
-        public double FrontBrakeForce
+        public double FrontDiscForce
         {
             get { return Brake.FrontBrakeForce; }
             set 
@@ -761,7 +688,7 @@ namespace WattSim_03A.ViewModels
         /// <summary>
         /// Force on rear discs due to friction (N).
         /// </summary>
-        public double RearBrakeForce
+        public double RearDiscForce
         {
             get { return Brake.RearBrakeForce; }
             set 
@@ -900,26 +827,49 @@ namespace WattSim_03A.ViewModels
         {
             double KineticEnergyPrev = KineticEnergy;
 
-            XPos = XPos + Velocity;
-            Velocity = Velocity + Acceleration;
+            XPos = XPos + (Velocity * Increment);
 
-            AngularVelocity = Velocity / OuterDiameter;
+            if ((ThrottlePos != 0)&&(BrakePos == 0))
+            {
+                Velocity = Velocity + (Acceleration * Increment);
+                Acceleration = ((CrankTorque / WheelInertia) * TyreRadius)
+                    - ((CrankTorque / WheelInertia) * (Velocity / 30));
+            }
+            else if ((ThrottlePos == 0)&&(BrakePos != 0))
+            {
+                if ((Velocity + (Acceleration * Increment)) <= 0)
+                {
+                    Velocity = 0;
+                }
+                else
+                    Velocity = Velocity + (Acceleration * Increment);
+                    
+                // Force at contact patch of front wheels (N).
+                FrontBrakeForce = FrontBrakeTorque / TyreRadius;
+                // Force at contact patch of rear wheels (N).
+                RearBrakeForce = RearBrakeTorque / TyreRadius;
+                // Total force slowing car (N).
+                TotalBrakeForce = FrontBrakeForce + RearBrakeForce;
+                // Final acceleration of car due to braking (m/s^2).
+                Acceleration= -TotalBrakeForce / _Car.Mass;
+            }
 
-            //if (BrakePos > 0)
-            //{
-            //    double KineticEnergyChange = KineticEnergy -
-            //        KineticEnergyPrev;
-            //    double EnergyToDisc = KineticEnergyChange / 4;
-            //    double DiscTemperatureChange = EnergyToDisc / (BrakeMass *
-            //        SpecificHeatCapacity);
-            //    DiscTemperature = DiscTemperature + DiscTemperatureChange;
-            //}
+            if (BrakePos > 0)
+            {
 
-            TimeStamp++;
+                double KineticEnergyChange = KineticEnergy -
+                    KineticEnergyPrev;
+                double EnergyToDisc = KineticEnergyChange / 4;
+                double DiscTemperatureChange = EnergyToDisc / (BrakeMass *
+                    SpecificHeatCapacity);
+                DiscTemperature = DiscTemperature - DiscTemperatureChange;
+            }
+
+            TimeStamp = TimeStamp + Increment;
 
             // Raise property changed flags
             RaisePropertyChanged("Velocity");
-            //RaisePropertyChanged("CrankRPM");
+            RaisePropertyChanged("Acceleration");
             RaisePropertyChanged("KineticEnergy");
             RaisePropertyChanged("DiscTemperature");
 
@@ -947,56 +897,27 @@ namespace WattSim_03A.ViewModels
 
         void BrakeTestExecute()
         {
-            //if(XPos <= 50)
-            //{
-            //    Acceleration = 3;
-            //}
-            //else
-            //{
-            //    Acceleration = -6;
-            //}
+            double start = XPos;
 
-            double KineticEnergyPrev = KineticEnergy;
+            do
+            {
+                if (XPos <= (start + 50))
+                {
+                    ThrottlePos = 1;
+                    RaisePropertyChanged("ThrottlePos");
+                    BrakePos = 0;
+                    RaisePropertyChanged("BrakePos");
+                }
+                else
+                {
+                    ThrottlePos = 0;
+                    RaisePropertyChanged("ThrottlePos");
+                    BrakePos = 1;
+                    RaisePropertyChanged("BrakePos");
+                }
 
-            XPos = XPos + Velocity;
-            Velocity = Velocity + Acceleration;
-
-            AngularVelocity = Velocity / OuterDiameter;
-
-            //if (BrakePos > 0)
-            //{
-            //    double KineticEnergyChange = KineticEnergy -
-            //        KineticEnergyPrev;
-            //    double EnergyToDisc = KineticEnergyChange / 4;
-            //    double DiscTemperatureChange = EnergyToDisc / (BrakeMass *
-            //        SpecificHeatCapacity);
-            //    DiscTemperature = DiscTemperature + DiscTemperatureChange;
-            //}
-
-            //double Deacceleration = BrakePos;
-            //Acceleration = Acceleration - BrakePos;
-
-            //  CrankRPM = CrankRPM + ((1 / FinalDrive) * (Acceleration * 
-            //    TyreRadius));
-            TimeStamp++;
-
-            // Raise property changed flags
-            RaisePropertyChanged("Velocity");
-            //RaisePropertyChanged("CrankRPM");
-            RaisePropertyChanged("KineticEnergy");
-            RaisePropertyChanged("DiscTemperature");
-
-            // Write data to .txt file
-            StreamWriter VelData = new StreamWriter(LocalDir
-                + "\\SimData.txt", true);
-            String VelString = Velocity.ToString();
-            String TimeString = TimeStamp.ToString();
-            String AccString = Acceleration.ToString();
-            String TempString = DiscTemperature.ToString();
-            VelData.WriteLine(TimeString + ":" + VelString + ":" + AccString
-                + ":" + TempString);
-            VelData.Close();
-            //}
+                UpdateTimeExecute();
+            } while (Velocity > 0);
 
         }
         bool CanBrakeTestExecute()
@@ -1007,8 +928,8 @@ namespace WattSim_03A.ViewModels
         {
             get
             {
-                return new RelayCommand(UpdateTimeExecute,
-                  CanUpdateTimeExecute);
+                return new RelayCommand(BrakeTestExecute,
+                  CanBrakeTestExecute);
             }
         }
         #endregion
@@ -1039,6 +960,29 @@ namespace WattSim_03A.ViewModels
             }
             return QdotAmb;
         }
+
+        double force(int mode, double dimension1, double dimension2)
+        {
+            if (mode == 0)
+            {
+                double pressure;
+                double area;
+                pressure = dimension1;
+                area = dimension2;
+                return pressure * area;
+            }
+            else if (mode == 1)
+            {
+                double normalForce;
+                double frictionCoefficiant;
+                normalForce = dimension1;
+                frictionCoefficiant = dimension2;
+                return (normalForce * frictionCoefficiant);
+            }
+            else
+                return 0;
+        }
+
         #endregion
     }
 }

@@ -70,9 +70,9 @@ namespace WattSim_03A.Models
         // Coefficient of friction between discs and pads.
         double discPadFriction;
         // Force on front discs due to friction (N).
-        double frontBrakeForce;
+        double frontDiscForce;
         // Force on rear discs due to friction (N).
-        double rearBrakeForce;
+        double rearDiscForce;
         // Torque on front brake rotors (Nm).
         double frontBrakeTorque;
         // Torque on rear brake rotors (Nm).
@@ -238,13 +238,13 @@ namespace WattSim_03A.Models
                 frontCylinderForce = masterCylinderForce * brakeBias;
                 //  Force on rear master cylinder actuator (N)
                 rearCylinderForce = masterCylinderForce * (1 - brakeBias);
-                //  Area of master cylinder piston (m^2)
-                masterPistonArea = circleArea(1, masterPistonOuterDiameter)
-                    - circleArea(1, masterPistonInnerDiameter);
-                //  Area of caliper piston (m^2)
-                calliperPistonArea = circleArea(1, 
-                    calliperPistonOuterDiameter) 
-                    - circleArea(1, calliperPistonInnerDiameter);
+                ////  Area of master cylinder piston (m^2)
+                //masterPistonArea = circleArea(1, masterPistonOuterDiameter)
+                //    - circleArea(1, masterPistonInnerDiameter);
+                ////  Area of caliper piston (m^2)
+                //calliperPistonArea = circleArea(1, 
+                //    calliperPistonOuterDiameter) 
+                //    - circleArea(1, calliperPistonInnerDiameter);
                 //  Pressure in front braking system (Pa)
                 frontBrakeSysPressure = pressure(0, frontCylinderForce, 
                     masterPistonArea);
@@ -258,16 +258,16 @@ namespace WattSim_03A.Models
                 rearCalliperForce = force(0,rearBrakeSysPressure, 
                     calliperPistonArea*numPistonsRear);
                 //  Tangential force on front discs due to friction (N)
-                frontBrakeForce = force(1, frontCalliperForce, 
+                frontDiscForce = force(1, frontCalliperForce, 
                     discPadFriction);
                 //  Tangential force on rear discs due to friction (N)
-                rearBrakeForce = force(1, rearCalliperForce, 
+                rearDiscForce = force(1, rearCalliperForce, 
                     discPadFriction);
                 //  Torque on front brake rotors (Nm)
-                frontBrakeTorque = torque(0, frontBrakeForce,
+                frontBrakeTorque = torque(0, frontDiscForce,
                     brakePadMeanRadius);
                 //  Torque on rear brake rotors (Nm)
-                rearBrakeTorque = torque(0, rearBrakeForce, 
+                rearBrakeTorque = torque(0, rearDiscForce, 
                     brakePadMeanRadius);
             }
         }
@@ -388,16 +388,16 @@ namespace WattSim_03A.Models
         /// </summary>
         public double FrontBrakeForce
         {
-            get { return frontBrakeForce; }
-            set { frontBrakeForce = value; }
+            get { return frontDiscForce; }
+            set { frontDiscForce = value; }
         }
         /// <summary>
         /// Force on rear discs due to friction (N).
         /// </summary>
         public double RearBrakeForce
         {
-            get { return rearBrakeForce; }
-            set { rearBrakeForce = value; }
+            get { return rearDiscForce; }
+            set { rearDiscForce = value; }
         }
         /// <summary>
         /// Torque on front brake rotors (Nm).
@@ -421,7 +421,12 @@ namespace WattSim_03A.Models
         public double MasterPistonOuterDiameter
         {
             get { return masterPistonOuterDiameter; }
-            set { masterPistonOuterDiameter = value; }
+            set 
+            { 
+                masterPistonOuterDiameter = value;
+                masterPistonArea = circleArea(1, masterPistonOuterDiameter)
+                    - circleArea(1, masterPistonInnerDiameter);
+            }
         }
         /// <summary>
         /// Master cylinder piston inner diameter (m).
@@ -429,7 +434,12 @@ namespace WattSim_03A.Models
         public double MasterPistonInnerDiameter
         {
             get { return masterPistonInnerDiameter; }
-            set { masterPistonInnerDiameter = value; }
+            set 
+            { 
+                masterPistonInnerDiameter = value;
+                masterPistonArea = circleArea(1, masterPistonOuterDiameter)
+                    - circleArea(1, masterPistonInnerDiameter);
+            }
         }
         /// <summary>
         /// Brake pad mean radius (m).
@@ -453,7 +463,13 @@ namespace WattSim_03A.Models
         public double CalliperPistonOuterDiameter
         {
             get { return calliperPistonOuterDiameter; }
-            set { calliperPistonOuterDiameter = value; }
+            set 
+            { 
+                calliperPistonOuterDiameter = value;
+                calliperPistonArea = circleArea(1,
+                    calliperPistonOuterDiameter)
+                    - circleArea(1, calliperPistonInnerDiameter);
+            }
         }
         /// <summary>
         /// Calliper piston inner diameter (m).
@@ -461,7 +477,13 @@ namespace WattSim_03A.Models
         public double CalliperPistonInnerDiameter
         {
             get { return calliperPistonInnerDiameter; }
-            set { calliperPistonInnerDiameter = value; }
+            set 
+            { 
+                calliperPistonInnerDiameter = value;
+                calliperPistonArea = circleArea(1,
+                    calliperPistonOuterDiameter)
+                    - circleArea(1, calliperPistonInnerDiameter);
+            }
         }
         #endregion
         #endregion

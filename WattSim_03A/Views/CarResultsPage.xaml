@@ -51,7 +51,7 @@
 
                 <d3:Header FontFamily="Arial" Content="Results"/>
                 <d3:VerticalAxisTitle FontFamily="Arial" 
-            		Content="Velocity"/>
+            		Content="Temperature"/>
                 <d3:HorizontalAxisTitle FontFamily="Arial" Content="Time"/>
             </d3:ChartPlotter>
             <d3:ChartPlotter 
