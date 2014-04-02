@@ -45,83 +45,85 @@
             <RowDefinition Height="30*" MinHeight="30"/>
             <RowDefinition Height="30*" MinHeight="30"/>
             <RowDefinition Height="30*" MinHeight="30"/>
-            <RowDefinition Height="32*"/>
-            <RowDefinition Height="39*"/>
-            <RowDefinition Height="66*"/>
+            <RowDefinition Height="30*" MinHeight="30"/>
+            <RowDefinition Height="30*" MinHeight="30"/>
+            <RowDefinition Height="30*" MinHeight="30"/>
+            <RowDefinition Height="30*" MinHeight="30"/>
             <RowDefinition Height="51*" MinHeight="30"/>
             <RowDefinition Height="25" MinHeight="25"/>
         </Grid.RowDefinitions>
         <Rectangle x:Name="SimPropsBackground" Grid.Column="5" 
-                   Grid.Row="2" Grid.ColumnSpan="5" Grid.RowSpan="10">
+                   Grid.Row="2" Grid.ColumnSpan="5" Grid.RowSpan="11">
             <Rectangle.Fill>
-                <SolidColorBrush Color="#FFF4F4F5" Opacity="0.5"/>
+                <SolidColorBrush Color="#FFF4F4F5" Opacity="0.75"/>
             </Rectangle.Fill>
         </Rectangle>
         <Label x:Name="VelocityLabel" Content="Velocity (m/s)" 
-               HorizontalAlignment="Left" Margin="10,5,0,0" 
-               VerticalAlignment="Top" Height="25" Grid.Column="6" 
+               HorizontalAlignment="Center" Margin="0" 
+               VerticalAlignment="Center" Height="25" Grid.Column="6" 
                Grid.Row="2" Width="83"/>
         <Label x:Name="VelocityValue" Content="{Binding Velocity}" 
-               HorizontalAlignment="Center" Margin="0,5,0,0" 
-               VerticalAlignment="Top" Grid.Column="8" Height="25" 
+               HorizontalAlignment="Center" Margin="61,3" 
+               VerticalAlignment="Center" Grid.Column="8" Height="26" 
                Grid.Row="2"/>
         <Label x:Name="AccelerationLabel" Content="Acceleration (m/s2)" 
-               HorizontalAlignment="Left" Margin="10,3,0,0" 
-               VerticalAlignment="Top" Height="25" Grid.Column="6" 
+               HorizontalAlignment="Center" Margin="0" 
+               VerticalAlignment="Center" Height="25" Grid.Column="6" 
                Grid.Row="3" Width="112"/>
         <Label x:Name="AccelerationValue" Content="{Binding Acceleration}" 
-               HorizontalAlignment="Center" Margin="60,3,0,0" 
-               VerticalAlignment="Top" Grid.Column="8" Height="25" 
+               HorizontalAlignment="Center" Margin="61,3" 
+               VerticalAlignment="Center" Grid.Column="8" Height="24" 
                Grid.Row="3"/>
         <TextBox x:Name="AccelerationNewValue" Grid.Column="6" 
-                 HorizontalAlignment="Left" Height="23" Margin="10,0,0,0" 
+                 HorizontalAlignment="Center" Height="24" Margin="18,3" 
                  TextWrapping="Wrap" Text="{Binding ThrottlePos}" 
-                 VerticalAlignment="Top" Width="120" Grid.Row="7" 
+                 VerticalAlignment="Center" Width="120" Grid.Row="7" 
                  BorderBrush="Black" Background="{x:Null}"/>
         <Label x:Name="KineticEnergyLabel" Content="Kinetic Energy(J)" 
-               HorizontalAlignment="Left" Margin="15,3,0,0" 
-               VerticalAlignment="Top" RenderTransformOrigin="0.423,4.111" 
+               HorizontalAlignment="Center" Margin="0" 
+               VerticalAlignment="Center" RenderTransformOrigin="0.423,4.111" 
                Height="25" Grid.Column="6" Grid.Row="4" Width="96"/>
         <Label x:Name="KineticEnergyValue" Content="{Binding KineticEnergy}" 
-               HorizontalAlignment="Center" Margin="0,5,0,0" 
-               VerticalAlignment="Top" RenderTransformOrigin="8.312,0.308" 
-               Grid.Column="8" Height="25" Grid.Row="4"/>
+               HorizontalAlignment="Center" Margin="61,3" 
+               VerticalAlignment="Center" RenderTransformOrigin="8.312,0.308" 
+               Grid.Column="8" Height="24" Grid.Row="4"/>
         <Button x:Name="UpdateTimeButton"
-                Command="{Binding UpdateTime, Mode=OneWay}" Grid.Column="6" 
-                HorizontalAlignment="Center" Margin="6,0,74,0" 
-                VerticalAlignment="Top" Content="Update Time" Width="76" 
-                Height="20" Grid.Row="11" BorderBrush="#FF0C0101" 
-                Background="{x:Null}"/>
+                Command="{Binding UpdateTime, Mode=OneWay}" Grid.Column="8" 
+                HorizontalAlignment="Center" Margin="31,6" 
+                VerticalAlignment="Center" Content="Update Time" Width="76" 
+                Height="20" Grid.Row="9" BorderBrush="#FF0C0101" 
+                Background="{x:Null}" RenderTransformOrigin="0.487,0.477"/>
         <Button x:Name="GoToCarSetup" Content="Car Setup" Grid.Column="6" 
-                HorizontalAlignment="Center" Margin="40,18,40,0" 
-                VerticalAlignment="Top" Width="76" 
-                Click="GoToCarSetup_Click" Height="20" Grid.Row="1" 
+                HorizontalAlignment="Center" Margin="40,6" 
+                VerticalAlignment="Center" Width="76" 
+                Click="GoToCarSetup_Click" Height="20" Grid.Row="9" 
                 BorderBrush="Black" Background="{x:Null}"/>
-        <Button x:Name="GoToBrakeSetup" Content="Brake Setup" Grid.Column="4" 
-                HorizontalAlignment="Center" Margin="22,18,20,0" 
-                VerticalAlignment="Top" Width="76" 
-                Click="GoToBrakeSetup_Click" Height="20" Grid.Row="1" 
+        <Button x:Name="GoToBrakeSetup" Content="Brake Setup" Grid.Column="6" 
+                HorizontalAlignment="Center" Margin="0" 
+                VerticalAlignment="Center" Width="76" 
+                Click="GoToBrakeSetup_Click" Height="20" Grid.Row="10" 
                 BorderBrush="Black" Background="{x:Null}"/>
         <Label x:Name="Testbloxk" Grid.Column="8" 
-               HorizontalAlignment="Center" Margin="60,3,62,0" 
-               Content="{Binding AngularVelocity}" VerticalAlignment="Top" 
-               Height="25" Grid.Row="5" Width="16"/>
-        <Button x:Name="GoToResultsButton" Content="Results" Grid.Column="6" 
-                HorizontalAlignment="Center" Margin="8,46,72,0" 
-                VerticalAlignment="Top" Width="76" 
+               HorizontalAlignment="Center" Margin="61,3" 
+               Content="{Binding AngularVelocity}" VerticalAlignment="Center" 
+               Height="24" Grid.Row="5" Width="16"/>
+        <Button x:Name="GoToResultsButton" Content="Results" Grid.Column="8" 
+                HorizontalAlignment="Center" Margin="0" 
+                VerticalAlignment="Center" Width="76" 
                 Click="GoToResultsButton_Click" Height="20" Grid.Row="11" 
                 BorderBrush="Black" Background="{x:Null}"/>
         <Label x:Name="DiscAngularVelocityLabel" 
-               Content="Angular Velocity (rad/s)" HorizontalAlignment="Left" 
-               Margin="10,3,0,0" VerticalAlignment="Top" Height="25" 
+               Content="Angular Velocity (rad/s)" HorizontalAlignment="Center" 
+               Margin="0" VerticalAlignment="Center" Height="25" 
                Grid.Column="6" Grid.Row="5" Width="142"/>
         <Label Content="{Binding DiscTemperature}" Grid.Column="6" 
                HorizontalAlignment="Left" Margin="2,16,0,0" Grid.Row="4" 
                VerticalAlignment="Top" Height="0" Width="29"/>
-        <Button x:Name="BrakeTestButton" Content="Brake Test" Grid.Column="6" 
-                HorizontalAlignment="Left" Margin="72,21,0,0" Grid.Row="11" 
-                VerticalAlignment="Top" Width="75" 
-                Command="{Binding BrakeTest, Mode=OneWay}" Height="20"/>
-        <TextBox x:Name="BrakePosNewValue" Grid.Column="8" HorizontalAlignment="Left" Height="23" Margin="10,0,0,0" Grid.Row="7" TextWrapping="Wrap" Text="{Binding BrakePos}" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="BrakeTestButton" Content="Brake Test" Grid.Column="8" 
+                HorizontalAlignment="Center" Margin="0" Grid.Row="10" 
+                VerticalAlignment="Center" Width="74" 
+                Command="{Binding BrakeTest, Mode=OneWay}" Height="20" Background="{x:Null}" BorderBrush="#FF0F0101"/>
+        <TextBox x:Name="BrakePosNewValue" Grid.Column="8" HorizontalAlignment="Center" Height="24" Margin="9,3" Grid.Row="7" TextWrapping="Wrap" Text="{Binding BrakePos}" VerticalAlignment="Center" Width="120" Background="{x:Null}" BorderBrush="#FF00040E"/>
+        <Button x:Name="ClearHistoryButton" Content="Clear Results" Grid.Column="6" HorizontalAlignment="Center" Margin="0" Grid.Row="11" VerticalAlignment="Center" Width="75" Background="{x:Null}" BorderBrush="#FF0F0101" Command="{Binding ClearHistory, Mode=OneWay}"/>
     </Grid>
 </Page>

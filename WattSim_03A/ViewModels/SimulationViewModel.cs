@@ -831,6 +831,11 @@ namespace WattSim_03A.ViewModels
 
             if ((ThrottlePos != 0)&&(BrakePos == 0))
             {
+                if (Velocity < 0)
+                {
+                    Velocity = 0;
+                }
+
                 Velocity = Velocity + (Acceleration * Increment);
                 Acceleration = ((CrankTorque / WheelInertia) * TyreRadius)
                     - ((CrankTorque / WheelInertia) * (Velocity / 30));
@@ -898,6 +903,7 @@ namespace WattSim_03A.ViewModels
         void BrakeTestExecute()
         {
             double start = XPos;
+            Velocity = 0;
 
             do
             {
@@ -929,6 +935,33 @@ namespace WattSim_03A.ViewModels
             get
             {
                 return new RelayCommand(BrakeTestExecute,
+                  CanBrakeTestExecute);
+            }
+        }
+
+        void ClearHistoryExecute()
+        {
+            Uri assemblyUri = new Uri(System.Reflection.Assembly.
+                GetExecutingAssembly().CodeBase);
+            LocalDir = Path.GetDirectoryName(assemblyUri.LocalPath);
+            StreamWriter SimData = new StreamWriter(LocalDir
+                + "\\SimData.txt");
+            String VelString = Velocity.ToString();
+            String AccString = Acceleration.ToString();
+            String TempString = DiscTemperature.ToString();
+            SimData.WriteLine("0:" + VelString + ":" + AccString + ":"
+                + TempString);
+            SimData.Close();
+        }
+        bool CanClearHistoryExecute()
+        {
+            return true;
+        }
+        public ICommand ClearHistory
+        {
+            get
+            {
+                return new RelayCommand(ClearHistoryExecute,
                   CanBrakeTestExecute);
             }
         }
