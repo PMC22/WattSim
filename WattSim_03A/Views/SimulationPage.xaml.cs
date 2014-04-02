@@ -40,5 +40,10 @@ namespace WattSim_03A.Views
         {
             NavigationService.Navigate(new CarResultsPage());
         }
+
+        private void GoToLiveResultsButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new LiveResults());
+        }
     }
 }
