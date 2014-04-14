@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO.Ports;
 
 namespace WattSim_03A
 {
@@ -26,5 +27,6 @@ namespace WattSim_03A
             _MainFrame.Navigate(new Views.SimulationPage());
             this.SizeToContent = SizeToContent.WidthAndHeight;
         }
+
     }
 }

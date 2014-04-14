@@ -125,5 +125,7 @@
                 Command="{Binding BrakeTest, Mode=OneWay}" Height="20" Background="{x:Null}" BorderBrush="#FF0F0101"/>
         <TextBox x:Name="BrakePosNewValue" Grid.Column="8" HorizontalAlignment="Center" Height="24" Margin="9,3" Grid.Row="7" TextWrapping="Wrap" Text="{Binding BrakePos}" VerticalAlignment="Center" Width="120" Background="{x:Null}" BorderBrush="#FF00040E"/>
         <Button x:Name="ClearHistoryButton" Content="Clear Results" Grid.Column="6" HorizontalAlignment="Center" Margin="0" Grid.Row="11" VerticalAlignment="Center" Width="75" Background="{x:Null}" BorderBrush="#FF0F0101" Command="{Binding ClearHistory, Mode=OneWay}"/>
+        <Button x:Name="GoToLiveResultsButton" Content="Button" Grid.Column="6" HorizontalAlignment="Left" Margin="51,10,0,0" Grid.Row="13" VerticalAlignment="Top" Width="75" Click="GoToLiveResultsButton_Click"/>
+        <Label Content="Label" Grid.Column="8" HorizontalAlignment="Left" Margin="48,11,0,0" Grid.Row="13" VerticalAlignment="Top"/>
     </Grid>
 </Page>

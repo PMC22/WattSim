@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Navigation;
+using System.IO.Ports;
 using System.IO;
 using MicroMvvm;
+using Microsoft.Research.DynamicDataDisplay.Common;
+
 
 namespace WattSim_03A.ViewModels
 {
@@ -78,6 +81,8 @@ namespace WattSim_03A.ViewModels
                 + TempString);
             SimData.Close();
             #endregion
+
+
         }
         #endregion
 
@@ -91,6 +96,7 @@ namespace WattSim_03A.ViewModels
         public string LocalDir;
         double TimeStamp = 0;
         double Increment = 0.01;
+
         #endregion
 
         #region Car Properties
@@ -888,6 +894,7 @@ namespace WattSim_03A.ViewModels
             VelData.WriteLine(TimeString + ":" + VelString + ":" + AccString
                 + ":" + TempString);
             VelData.Close();
+
         }
         bool CanUpdateTimeExecute()
         {
@@ -1017,5 +1024,31 @@ namespace WattSim_03A.ViewModels
         }
 
         #endregion
+
     }
+
+    #region Results Classes
+    public class ThrottlePosPointCollection : RingArray<ThrottlePosPoint>
+    {
+        private const int TOTAL_POINTS = 300;
+
+        public ThrottlePosPointCollection()
+            : base(TOTAL_POINTS)
+        {
+        }
+    }
+
+    public class ThrottlePosPoint
+    {
+        public DateTime Date { get; set; }
+
+        public double ThrottlePos { get; set; }
+
+        public ThrottlePosPoint(double throttlePos, DateTime date)
+        {
+            this.Date = date;
+            this.ThrottlePos = throttlePos;
+        }
+    }
+    #endregion
 }
